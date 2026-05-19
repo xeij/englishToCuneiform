@@ -245,9 +245,7 @@
     readMoreBtn.setAttribute('aria-expanded', String(isOpen));
     if (readMoreLabel) readMoreLabel.textContent = isOpen ? 'Read less' : 'Read more';
     if (isOpen) {
-      setTimeout(() => {
-        deepHistory.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 200);
+      deepHistory.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 
