@@ -39,12 +39,15 @@
   <main id="app" class="hidden" aria-hidden="true">
     <section class="container input-container" id="input-container">
       <label for="english-input">English</label>
-      <textarea
-        id="english-input"
-        placeholder="Type something in English…   e.g.  I am Darius the great king."
-        autocomplete="off"
-        autocorrect="off"
-        spellcheck="false"></textarea>
+      <div class="input-wrap">
+        <div id="demo-overlay" class="demo-overlay hidden" aria-hidden="true"></div>
+        <textarea
+          id="english-input"
+          placeholder=""
+          autocomplete="off"
+          autocorrect="off"
+          spellcheck="false"></textarea>
+      </div>
     </section>
 
     <section class="container output-container" id="output-container">

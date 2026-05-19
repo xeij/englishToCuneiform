@@ -237,6 +237,10 @@ label {
   margin-bottom: 0.95rem;
 }
 
+.input-wrap {
+  position: relative;
+}
+
 #english-input {
   width: 100%;
   min-height: 5.4rem;
@@ -251,10 +255,45 @@ label {
   font-weight: 400;
   caret-color: #ffffff;
   padding: 0.1rem 0;
+  position: relative;
+  z-index: 1;
 }
 
 #english-input::placeholder {
   color: var(--text-dim-2);
+}
+
+.demo-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.42);
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  font-weight: 400;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  padding: 0.1rem 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.demo-overlay.hidden { display: none; }
+
+.demo-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  background: rgba(255, 255, 255, 0.55);
+  vertical-align: -0.18em;
+  margin-left: 1px;
+  animation: demo-caret-blink 0.9s steps(1) infinite;
+}
+
+@keyframes demo-caret-blink {
+  0%, 50%      { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
 }
 
 .cuneiform-text {

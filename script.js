@@ -25,6 +25,7 @@
   const copyBtn      = document.getElementById('copy-btn');
   const readMoreBtn  = document.getElementById('read-more-btn');
   const deepHistory  = document.getElementById('deep-history');
+  const demoOverlay  = document.getElementById('demo-overlay');
 
   let imgIdx = 0;
   let appRevealed = false;
@@ -73,9 +74,91 @@
     cornerEl.classList.add('visible');
 
     startCornerSlideshow();
-
-    setTimeout(() => englishInput.focus({ preventScroll: true }), 700);
+    startTypewriterDemo();
   }
+
+  // ---- Typewriter demo overlay ----
+  const DEMO_PHRASES = [
+    'I am Darius the great king',
+    'Auramazda is the great god',
+    'Cyrus son of Cambyses',
+    'In the land of Persia'
+  ];
+  let demoActive = false;
+  let demoTimer  = null;
+  let demoIdx    = 0;
+
+  function startTypewriterDemo() {
+    if (demoActive) return;
+    demoActive = true;
+    demoOverlay.classList.remove('hidden');
+    typeDemoPhrase();
+  }
+
+  function stopTypewriterDemo() {
+    if (!demoActive) return;
+    demoActive = false;
+    clearTimeout(demoTimer);
+    demoOverlay.classList.add('hidden');
+    demoOverlay.innerHTML = '';
+    if (!englishInput.value) {
+      cuneOutput.classList.add('empty');
+      cuneOutput.textContent = '';
+      translitOut.textContent = '';
+    }
+  }
+
+  function typeDemoPhrase() {
+    if (!demoActive) return;
+    const phrase = DEMO_PHRASES[demoIdx];
+    let charIdx = 0;
+
+    function typeChar() {
+      if (!demoActive) return;
+      if (charIdx <= phrase.length) {
+        renderDemo(phrase.substring(0, charIdx));
+        charIdx++;
+        demoTimer = setTimeout(typeChar, 70 + Math.random() * 70);
+      } else {
+        demoTimer = setTimeout(eraseChar, 2200);
+      }
+    }
+
+    function eraseChar() {
+      if (!demoActive) return;
+      if (charIdx > 0) {
+        charIdx--;
+        renderDemo(phrase.substring(0, charIdx));
+        demoTimer = setTimeout(eraseChar, 30);
+      } else {
+        demoIdx = (demoIdx + 1) % DEMO_PHRASES.length;
+        demoTimer = setTimeout(typeDemoPhrase, 500);
+      }
+    }
+
+    typeChar();
+  }
+
+  function renderDemo(text) {
+    const safe = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    demoOverlay.innerHTML = safe + '<span class="demo-caret"></span>';
+
+    const { cuneiform, translit } = window.translateToCuneiform(text);
+    if (cuneiform) {
+      cuneOutput.classList.remove('empty');
+      cuneOutput.textContent = cuneiform;
+      translitOut.textContent = translit;
+    } else {
+      cuneOutput.classList.add('empty');
+      cuneOutput.textContent = '';
+      translitOut.textContent = '';
+    }
+  }
+
+  englishInput.addEventListener('focus', stopTypewriterDemo);
 
   // ---- Corner slideshow (auto-rotates) ----
   let cornerIdx = 0;
@@ -125,7 +208,10 @@
     translitOut.textContent = translit;
   }
 
-  englishInput.addEventListener('input', renderTranslation);
+  englishInput.addEventListener('input', () => {
+    stopTypewriterDemo();
+    renderTranslation();
+  });
 
   // ---- Read more toggle ----
   readMoreBtn.addEventListener('click', () => {
