@@ -142,11 +142,10 @@ body { overflow-x: hidden; }
    moving wash of icy blue, lavender, cyan, pink, and silver. The coloured
    light is what makes the glass feel alive, without any single surface
    owning a colour. */
-#app::before {
-  content: "";
-  position: fixed;
+.aurora-glow-1 {
+  position: absolute;
   inset: -25vmax;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
   background:
     radial-gradient(28vmax 28vmax at 18% 22%, var(--hue-ice)    0%, transparent 55%),
@@ -160,11 +159,10 @@ body { overflow-x: hidden; }
   will-change: transform;
 }
 
-#app::after {
-  content: "";
-  position: fixed;
+.aurora-glow-2 {
+  position: absolute;
   inset: -30vmax;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
   background:
     radial-gradient(36vmax 30vmax at 65% 40%, var(--hue-lav)  0%, transparent 60%),
@@ -329,16 +327,6 @@ body { overflow-x: hidden; }
   gap: 0.55em;
 }
 
-.title-to {
-  display: inline-block;
-  flex: 0 0 auto;
-  font-family: var(--font-sans);
-  font-style: italic;
-  font-weight: 400;
-  font-size: 0.85em;
-  color: rgba(255, 255, 255, 0.6);
-  letter-spacing: 0.01em;
-}
 
 .title-bar .subtitle {
   margin-top: 0.35rem;
@@ -929,16 +917,16 @@ label {
     padding: 0.55rem 1.1rem;
   }
   /* The aurora competes with type at narrow widths — pull it back. */
-  #app::before { opacity: 0.32; }
-  #app::after  { opacity: 0.22; }
+  .aurora-glow-1 { opacity: 0.32; }
+  .aurora-glow-2 { opacity: 0.22; }
 }
 
 /* === ACCESSIBILITY: REDUCED MOTION ===
    Cut every drift, rotation, blink, and fade. Translucency, colour, and
    layered lighting stay in place; only motion is suppressed. */
 @media (prefers-reduced-motion: reduce) {
-  #app::before,
-  #app::after,
+  .aurora-glow-1,
+  .aurora-glow-2,
   .input-wrap:focus-within::before,
   .glass-btn,
   .copy-btn,
