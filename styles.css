@@ -1,9 +1,17 @@
 /* ============================================================
-   English → Old Persian Cuneiform
-   Black background · Apple system font · liquid-glass surfaces
+   English -> Old Persian Cuneiform
+   Black canvas · Apple "liquid glass" surfaces · drifting aurora
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Old+Persian&display=swap');
+
+/* Registered custom property so the conic-gradient angle on focused inputs
+   can be animated smoothly instead of jumping at the end of the keyframe. */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
 
 :root {
   --bg:           #000000;
@@ -12,6 +20,13 @@
   --glass-top:    rgba(255, 255, 255, 0.14);
   --glass-mid:    rgba(255, 255, 255, 0.07);
   --glass-bot:    rgba(255, 255, 255, 0.035);
+
+  /* pastel "liquid" hues used by the drifting aurora and focus accents */
+  --hue-ice:      rgba(170, 210, 255, 1);
+  --hue-lav:      rgba(200, 180, 255, 1);
+  --hue-cyan:     rgba(155, 230, 240, 1);
+  --hue-pink:     rgba(255, 200, 220, 1);
+  --hue-silver:   rgba(225, 230, 240, 1);
 
   /* edges & highlights */
   --edge-spec:    rgba(255, 255, 255, 0.55);
@@ -22,7 +37,7 @@
   --text-dim:     rgba(255, 255, 255, 0.65);
   --text-dim-2:   rgba(255, 255, 255, 0.42);
 
-  --radius-lg: 26px;
+  --radius-lg: 28px;
   --radius-md: 20px;
   --radius-sm: 14px;
   --radius-pill: 999px;
@@ -31,8 +46,13 @@
                "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
   --font-cune: 'Noto Sans Old Persian', 'Segoe UI Historic', serif;
 
-  /* shared motion curve — velvet, not snappy */
-  --ease-glass: cubic-bezier(0.32, 0.72, 0.24, 1);
+  --ease-glass:   cubic-bezier(0.32, 0.72, 0.24, 1);
+  --ease-buoyant: cubic-bezier(0.34, 1.42, 0.64, 1);
+
+  /* Fine fractalNoise tile baked into a data-URI; reused across glass
+     surfaces for the faint texture that keeps them from looking like
+     flat translucent rectangles. */
+  --noise-tile: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.45 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 * {
@@ -116,6 +136,53 @@ body { overflow-x: hidden; }
   .hint-text.mobile-only  { display: block; }
 }
 
+/* === DRIFTING AURORA ===
+   Two counter-rotating pools of pastel light that live behind every glass
+   surface on the page. The container backdrop-filter blurs them into a
+   moving wash of icy blue, lavender, cyan, pink, and silver. The coloured
+   light is what makes the glass feel alive, without any single surface
+   owning a colour. */
+#app::before {
+  content: "";
+  position: fixed;
+  inset: -25vmax;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(28vmax 28vmax at 18% 22%, var(--hue-ice)    0%, transparent 55%),
+    radial-gradient(32vmax 26vmax at 82% 28%, var(--hue-lav)    0%, transparent 60%),
+    radial-gradient(28vmax 22vmax at 30% 78%, var(--hue-cyan)   0%, transparent 58%),
+    radial-gradient(26vmax 28vmax at 78% 76%, var(--hue-pink)   0%, transparent 58%),
+    radial-gradient(22vmax 22vmax at 50% 50%, var(--hue-silver) 0%, transparent 65%);
+  filter: blur(70px) saturate(1.1);
+  opacity: 0.42;
+  animation: aurora-drift 46s linear infinite;
+  will-change: transform;
+}
+
+#app::after {
+  content: "";
+  position: fixed;
+  inset: -30vmax;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(36vmax 30vmax at 65% 40%, var(--hue-lav)  0%, transparent 60%),
+    radial-gradient(30vmax 28vmax at 25% 60%, var(--hue-ice)  0%, transparent 60%),
+    radial-gradient(26vmax 22vmax at 80% 80%, var(--hue-cyan) 0%, transparent 60%);
+  filter: blur(90px) saturate(1.15);
+  opacity: 0.28;
+  animation: aurora-drift 72s linear infinite reverse;
+  will-change: transform;
+  mix-blend-mode: screen;
+}
+
+@keyframes aurora-drift {
+  0%   { transform: rotate(0deg)   scale(1);    }
+  50%  { transform: rotate(180deg) scale(1.06); }
+  100% { transform: rotate(360deg) scale(1);    }
+}
+
 /* === INSIDE-PAGE SLIDESHOW (glass frame around image) === */
 .corner-slideshow {
   position: fixed;
@@ -139,7 +206,12 @@ body { overflow-x: hidden; }
     inset 0 1.2px 0 0 rgba(255, 255, 255, 0.32),
     inset 0 -1.2px 0 0 rgba(0, 0, 0, 0.55),
     inset 0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 30px 80px -10px rgba(0, 0, 0, 0.7);
+    0 30px 80px -10px rgba(0, 0, 0, 0.7),
+    0 0 60px -18px rgba(170, 210, 255, 0.35),
+    0 0 100px -32px rgba(200, 180, 255, 0.25);
+  transition:
+    transform 0.7s var(--ease-glass),
+    box-shadow 0.7s var(--ease-glass);
 }
 
 .corner-slideshow::before {
@@ -151,9 +223,26 @@ body { overflow-x: hidden; }
   z-index: 2;
   background:
     radial-gradient(120% 60% at 50% -10%,
-      rgba(255, 255, 255, 0.18),
-      rgba(255, 255, 255, 0) 60%);
+      rgba(255, 255, 255, 0.20),
+      rgba(255, 255, 255, 0) 60%),
+    radial-gradient(80% 40% at 0% 0%,
+      rgba(255, 255, 255, 0.10),
+      rgba(255, 255, 255, 0) 70%);
   mix-blend-mode: screen;
+}
+
+/* Faint grain sitting over the slideshow image, clipped to the frame by
+   the parent overflow:hidden. */
+.corner-slideshow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: var(--noise-tile);
+  background-size: 180px 180px;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
 }
 
 .corner-slideshow.hidden { display: none; }
@@ -168,6 +257,19 @@ body { overflow-x: hidden; }
   z-index: 1;
 }
 
+@media (hover: hover) {
+  .corner-slideshow:hover {
+    transform: translateY(calc(-50% - 3px));
+    box-shadow:
+      inset 0 1.2px 0 0 rgba(255, 255, 255, 0.42),
+      inset 0 -1.2px 0 0 rgba(0, 0, 0, 0.55),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+      0 36px 90px -10px rgba(0, 0, 0, 0.72),
+      0 0 80px -16px rgba(170, 210, 255, 0.45),
+      0 0 120px -28px rgba(200, 180, 255, 0.35);
+  }
+}
+
 @media (max-width: 1100px) {
   .corner-slideshow {
     top: auto;
@@ -176,6 +278,9 @@ body { overflow-x: hidden; }
     transform: none;
     width: clamp(140px, 22vw, 200px);
     height: clamp(140px, 22vw, 200px);
+  }
+  @media (hover: hover) {
+    .corner-slideshow:hover { transform: translateY(-3px); }
   }
 }
 
@@ -195,7 +300,9 @@ body { overflow-x: hidden; }
   }
 }
 
-/* === TITLE BAR === */
+/* === TITLE BAR ===
+   Frosted hood across the top of the page so the aurora behind it gets
+   softened before reaching the title type. */
 .title-bar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -203,7 +310,12 @@ body { overflow-x: hidden; }
   padding: 1.4rem 2rem 1.1rem;
   text-align: center;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.92) 60%, rgba(0,0,0,0));
+  background: linear-gradient(to bottom,
+    rgba(0, 0, 0, 0.78) 40%,
+    rgba(0, 0, 0, 0.35) 80%,
+    rgba(0, 0, 0, 0) 100%);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
 }
 
 .title-bar h1 {
@@ -217,12 +329,15 @@ body { overflow-x: hidden; }
   gap: 0.55em;
 }
 
-.title-arrow {
+.title-to {
   display: inline-block;
-  width: 1.7em;
-  height: 0.6em;
   flex: 0 0 auto;
-  color: #ffffff;
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.85em;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.01em;
 }
 
 .title-bar .subtitle {
@@ -246,17 +361,17 @@ body { overflow-x: hidden; }
   justify-content: flex-start;
   gap: 1.4rem;
   padding: 9.5rem 2rem 4rem;
-  background: var(--bg);
 }
 
 #app.hidden { display: none; }
 
 /* === GLASS CONTAINERS (input + output) ===
    Layered "Liquid Glass":
-     body  = vertical tonal gradient + backdrop blur
-     ::before = top specular sweep + corner glints (screen-blended)
-     ::after  = inner hairline ring against the dark page
-*/
+     body     = vertical tonal gradient + backdrop blur
+     ::before = top specular sweep, corner glints, ambient pastel haze
+     ::after  = inner hairline ring + fine grain noise overlay
+   The drifting aurora behind the page bleeds through via backdrop-filter,
+   so each container picks up colour from the canvas without owning any. */
 .container {
   width: 100%;
   max-width: 780px;
@@ -271,14 +386,19 @@ body { overflow-x: hidden; }
   -webkit-backdrop-filter: blur(40px) saturate(200%);
   border-radius: var(--radius-lg);
   box-shadow:
-    inset 0 1.2px 0 0 rgba(255, 255, 255, 0.32),
-    inset 0 -1.2px 0 0 rgba(0, 0, 0, 0.55),
+    inset 0 1.4px 0 0 rgba(255, 255, 255, 0.34),
+    inset 0 -1.4px 0 0 rgba(0, 0, 0, 0.55),
     inset 0 0 0 1px rgba(255, 255, 255, 0.05),
     0 30px 80px -10px rgba(0, 0, 0, 0.7),
-    0 2px 8px rgba(0, 0, 0, 0.3);
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    0 0 70px -22px rgba(170, 210, 255, 0.35),
+    0 0 110px -32px rgba(200, 180, 255, 0.25);
   border: none;
   padding: 1.9rem 2.1rem;
   overflow: hidden;
+  transition:
+    transform 0.7s var(--ease-glass),
+    box-shadow 0.7s var(--ease-glass);
 }
 
 .container::before {
@@ -290,14 +410,17 @@ body { overflow-x: hidden; }
   z-index: 0;
   background:
     radial-gradient(140% 70% at 50% -20%,
-      rgba(255, 255, 255, 0.18),
+      rgba(255, 255, 255, 0.20),
       rgba(255, 255, 255, 0) 60%),
     radial-gradient(60% 40% at 0% 0%,
       rgba(255, 255, 255, 0.10),
       rgba(255, 255, 255, 0) 70%),
     radial-gradient(60% 40% at 100% 0%,
       rgba(255, 255, 255, 0.08),
-      rgba(255, 255, 255, 0) 70%);
+      rgba(255, 255, 255, 0) 70%),
+    /* faint pastel light caught inside the glass itself */
+    radial-gradient(70% 50% at 15% 90%, rgba(170, 210, 255, 0.10), transparent 60%),
+    radial-gradient(70% 50% at 85% 80%, rgba(200, 180, 255, 0.10), transparent 60%);
   mix-blend-mode: screen;
 }
 
@@ -308,10 +431,28 @@ body { overflow-x: hidden; }
   border-radius: inherit;
   pointer-events: none;
   z-index: 0;
+  background: var(--noise-tile);
+  background-size: 180px 180px;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .container > * { position: relative; z-index: 1; }
+
+@media (hover: hover) {
+  .container:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1.4px 0 0 rgba(255, 255, 255, 0.42),
+      inset 0 -1.4px 0 0 rgba(0, 0, 0, 0.55),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 36px 96px -10px rgba(0, 0, 0, 0.72),
+      0 2px 8px rgba(0, 0, 0, 0.3),
+      0 0 90px -20px rgba(170, 210, 255, 0.45),
+      0 0 140px -28px rgba(200, 180, 255, 0.35);
+  }
+}
 
 label {
   display: block;
@@ -324,8 +465,81 @@ label {
   margin-bottom: 0.95rem;
 }
 
+/* === INPUT SURFACE ===
+   A tactile glass field that lights up on focus with an animated pastel
+   border ring. The ring is a conic-gradient masked to a 1.5px stroke; the
+   --angle property rotates it slowly while focus is held. */
 .input-wrap {
   position: relative;
+  border-radius: var(--radius-md);
+  padding: 0.95rem 1.15rem;
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.045) 0%,
+    rgba(255, 255, 255, 0.020) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+  transition:
+    background 0.45s var(--ease-glass),
+    box-shadow 0.45s var(--ease-glass);
+}
+
+.input-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from var(--angle),
+    rgba(170, 210, 255, 0.85) 0%,
+    rgba(200, 180, 255, 0.85) 25%,
+    rgba(255, 200, 220, 0.65) 50%,
+    rgba(155, 230, 240, 0.85) 75%,
+    rgba(170, 210, 255, 0.85) 100%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.55s var(--ease-glass);
+  pointer-events: none;
+  z-index: 3;
+}
+
+.input-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background: var(--noise-tile);
+  background-size: 160px 160px;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+.input-wrap:focus-within {
+  background: linear-gradient(180deg,
+    rgba(255, 255, 255, 0.065) 0%,
+    rgba(255, 255, 255, 0.030) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+    0 0 30px -8px rgba(170, 210, 255, 0.45),
+    0 0 60px -14px rgba(200, 180, 255, 0.30);
+}
+
+.input-wrap:focus-within::before {
+  opacity: 1;
+  animation: border-rotate 9s linear infinite;
+}
+
+@keyframes border-rotate {
+  to { --angle: 360deg; }
 }
 
 #english-input {
@@ -341,9 +555,9 @@ label {
   line-height: 1.6;
   font-weight: 400;
   caret-color: #ffffff;
-  padding: 0.1rem 0;
+  padding: 0;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 #english-input::placeholder {
@@ -352,7 +566,7 @@ label {
 
 .demo-overlay {
   position: absolute;
-  inset: 0;
+  inset: 0.95rem 1.15rem;
   pointer-events: none;
   color: rgba(255, 255, 255, 0.42);
   font-family: var(--font-sans);
@@ -361,9 +575,8 @@ label {
   font-weight: 400;
   white-space: pre-wrap;
   word-wrap: break-word;
-  padding: 0.1rem 0;
   overflow: hidden;
-  z-index: 0;
+  z-index: 1;
 }
 
 .demo-overlay.hidden { display: none; }
@@ -400,6 +613,17 @@ label {
   opacity: 0.6;
 }
 
+/* Newly rendered glyphs bloom into place rather than snapping in. */
+.cune-fade {
+  display: inline-block;
+  animation: cune-fade-in 0.42s var(--ease-glass) both;
+}
+
+@keyframes cune-fade-in {
+  from { opacity: 0; transform: translateY(2px); filter: blur(3px); }
+  to   { opacity: 1; transform: translateY(0);   filter: blur(0);   }
+}
+
 .translit-text {
   margin-top: 0.9rem;
   padding-top: 0.9rem;
@@ -415,10 +639,9 @@ label {
 
 /* === GLASS PILL BUTTONS ===
    Shared treatment for every interactive pill on the page.
-   Layers: tonal gradient body  +  ::before specular cap  +
-   ::after dome shading. Hover lifts and brightens;
-   :active sinks and scales down.
-*/
+   Layers: tonal gradient body + ::before specular cap + ::after dome
+   shading. Hover lifts and brightens with a pastel halo; :active sinks
+   and scales down. */
 .glass-btn,
 .copy-btn,
 .read-more-btn {
@@ -450,10 +673,10 @@ label {
     0 1px 1px rgba(0, 0, 0, 0.25),
     0 8px 22px -6px rgba(0, 0, 0, 0.55);
   transition:
-    background 0.25s var(--ease-glass),
-    transform  0.18s var(--ease-glass),
-    box-shadow 0.25s var(--ease-glass),
-    color      0.2s  var(--ease-glass);
+    background 0.3s var(--ease-glass),
+    transform  0.22s var(--ease-buoyant),
+    box-shadow 0.3s var(--ease-glass),
+    color      0.2s var(--ease-glass);
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -468,7 +691,7 @@ label {
   z-index: 0;
   background:
     radial-gradient(120% 80% at 50% -30%,
-      rgba(255, 255, 255, 0.35),
+      rgba(255, 255, 255, 0.38),
       rgba(255, 255, 255, 0) 65%),
     linear-gradient(180deg,
       rgba(255, 255, 255, 0.18) 0%,
@@ -506,13 +729,15 @@ label {
       rgba(255, 255, 255, 0.30) 0%,
       rgba(255, 255, 255, 0.16) 55%,
       rgba(255, 255, 255, 0.10) 100%);
-  transform: translateY(-1px);
+  transform: translateY(-1.5px);
   box-shadow:
     inset 0 1px 0 0 rgba(255, 255, 255, 0.55),
     inset 0 -1px 0 0 rgba(0, 0, 0, 0.32),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
     0 2px 2px rgba(0, 0, 0, 0.25),
-    0 14px 28px -8px rgba(0, 0, 0, 0.6);
+    0 14px 28px -8px rgba(0, 0, 0, 0.6),
+    0 0 28px -8px rgba(170, 210, 255, 0.45),
+    0 0 48px -12px rgba(200, 180, 255, 0.3);
 }
 
 .glass-btn:active,
@@ -535,8 +760,9 @@ label {
   box-shadow:
     inset 0 1px 0 0 rgba(255, 255, 255, 0.55),
     inset 0 -1px 0 0 rgba(0, 0, 0, 0.32),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 0 0 3px rgba(255, 255, 255, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 0 0 3px rgba(170, 210, 255, 0.35),
+    0 0 0 6px rgba(200, 180, 255, 0.18),
     0 14px 28px -8px rgba(0, 0, 0, 0.6);
 }
 
@@ -692,6 +918,8 @@ label {
 @media (max-width: 600px) {
   #app { padding: 8rem 1rem 2.5rem; gap: 1rem; }
   .container { padding: 1.4rem 1.3rem; }
+  .input-wrap { padding: 0.8rem 0.95rem; }
+  .demo-overlay { inset: 0.8rem 0.95rem; }
   .deep-history.open { padding-top: 0.8rem; }
   .title-bar { padding: 1.1rem 1rem 0.8rem; }
   #english-input { font-size: 1rem; }
@@ -700,14 +928,29 @@ label {
     font-size: 0.8rem;
     padding: 0.55rem 1.1rem;
   }
+  /* The aurora competes with type at narrow widths — pull it back. */
+  #app::before { opacity: 0.32; }
+  #app::after  { opacity: 0.22; }
 }
 
+/* === ACCESSIBILITY: REDUCED MOTION ===
+   Cut every drift, rotation, blink, and fade. Translucency, colour, and
+   layered lighting stay in place; only motion is suppressed. */
 @media (prefers-reduced-motion: reduce) {
+  #app::before,
+  #app::after,
+  .input-wrap:focus-within::before,
   .glass-btn,
   .copy-btn,
   .read-more-btn,
   .copy-btn .copy-icon,
-  .read-more-btn .read-more-chev {
-    transition: none;
+  .read-more-btn .read-more-chev,
+  .corner-slideshow,
+  .container,
+  .cune-fade,
+  .hint-text,
+  .demo-caret {
+    animation: none !important;
+    transition: none !important;
   }
 }
