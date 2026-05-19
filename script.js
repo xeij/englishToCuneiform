@@ -40,14 +40,8 @@
   });
 
   function showEntryImage(idx) {
-    if (swapping) return;
-    swapping = true;
-    entryImg.classList.add('swapping');
-    setTimeout(() => {
-      entryImg.src = ENTRY_IMAGES[idx];
-      entryImg.classList.remove('swapping');
-      swapping = false;
-    }, 320);
+    entryImg.src = ENTRY_IMAGES[idx];
+    swapping = false;
   }
 
   function advance() {
@@ -88,11 +82,7 @@
   function startCornerSlideshow() {
     setInterval(() => {
       cornerIdx = (cornerIdx + 1) % CORNER_IMAGES.length;
-      cornerImg.classList.add('swapping');
-      setTimeout(() => {
-        cornerImg.src = CORNER_IMAGES[cornerIdx];
-        cornerImg.classList.remove('swapping');
-      }, 600);
+      cornerImg.src = CORNER_IMAGES[cornerIdx];
     }, 4500);
   }
 
