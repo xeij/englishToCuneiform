@@ -78,11 +78,16 @@
   }
 
   // ---- Typewriter demo overlay ----
+  // Single words and names — short, recognisable, quick to translate.
   const DEMO_PHRASES = [
-    'I am Darius the great king',
-    'Auramazda is the great god',
-    'Cyrus son of Cambyses',
-    'In the land of Persia'
+    'Darius',
+    'Cyrus',
+    'Xerxes',
+    'Persia',
+    'King',
+    'Persepolis',
+    'Auramazda',
+    'Alexander'
   ];
   let demoActive = false;
   let demoTimer  = null;
@@ -102,9 +107,7 @@
     demoOverlay.classList.add('hidden');
     demoOverlay.innerHTML = '';
     if (!englishInput.value) {
-      cuneOutput.classList.add('empty');
-      cuneOutput.textContent = '';
-      translitOut.textContent = '';
+      renderCuneiformOutput('', '');
     }
   }
 
@@ -118,9 +121,9 @@
       if (charIdx <= phrase.length) {
         renderDemo(phrase.substring(0, charIdx));
         charIdx++;
-        demoTimer = setTimeout(typeChar, 70 + Math.random() * 70);
+        demoTimer = setTimeout(typeChar, 95 + Math.random() * 75);
       } else {
-        demoTimer = setTimeout(eraseChar, 2200);
+        demoTimer = setTimeout(eraseChar, 2000);
       }
     }
 
@@ -129,10 +132,10 @@
       if (charIdx > 0) {
         charIdx--;
         renderDemo(phrase.substring(0, charIdx));
-        demoTimer = setTimeout(eraseChar, 30);
+        demoTimer = setTimeout(eraseChar, 40);
       } else {
         demoIdx = (demoIdx + 1) % DEMO_PHRASES.length;
-        demoTimer = setTimeout(typeDemoPhrase, 500);
+        demoTimer = setTimeout(typeDemoPhrase, 550);
       }
     }
 
@@ -140,22 +143,9 @@
   }
 
   function renderDemo(text) {
-    const safe = text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-    demoOverlay.innerHTML = safe + '<span class="demo-caret"></span>';
-
+    demoOverlay.innerHTML = escapeHtml(text) + '<span class="demo-caret"></span>';
     const { cuneiform, translit } = window.translateToCuneiform(text);
-    if (cuneiform) {
-      cuneOutput.classList.remove('empty');
-      cuneOutput.textContent = cuneiform;
-      translitOut.textContent = translit;
-    } else {
-      cuneOutput.classList.add('empty');
-      cuneOutput.textContent = '';
-      translitOut.textContent = '';
-    }
+    renderCuneiformOutput(cuneiform, translit);
   }
 
   englishInput.addEventListener('focus', stopTypewriterDemo);
@@ -192,20 +182,54 @@
 
   // ---- Live translation ----
 
-  function renderTranslation() {
-    const text = englishInput.value;
-    const { cuneiform, translit } = window.translateToCuneiform(text);
+  // Track the previously rendered cuneiform so we can diff and only animate
+  // glyphs that actually changed. Cuneiform code points are in the
+  // supplementary plane, so we use Array.from for proper code-point iteration.
+  let prevCuneiform = '';
 
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+  }
+
+  function renderCuneiformOutput(cuneiform, translit) {
     if (!cuneiform) {
       cuneOutput.classList.add('empty');
-      cuneOutput.textContent = '';
+      cuneOutput.innerHTML = '';
       translitOut.textContent = '';
+      prevCuneiform = '';
       return;
     }
 
     cuneOutput.classList.remove('empty');
-    cuneOutput.textContent = cuneiform;
+
+    const prevChars = Array.from(prevCuneiform);
+    const newChars  = Array.from(cuneiform);
+
+    // Length of the shared prefix — these glyphs stay put without re-animating.
+    let stable = 0;
+    while (stable < prevChars.length &&
+           stable < newChars.length &&
+           prevChars[stable] === newChars[stable]) {
+      stable++;
+    }
+
+    let html = '';
+    for (let i = 0; i < newChars.length; i++) {
+      const ch = escapeHtml(newChars[i]);
+      html += i < stable ? ch : `<span class="cune-fade">${ch}</span>`;
+    }
+
+    cuneOutput.innerHTML = html;
     translitOut.textContent = translit;
+    prevCuneiform = cuneiform;
+  }
+
+  function renderTranslation() {
+    const text = englishInput.value;
+    const { cuneiform, translit } = window.translateToCuneiform(text);
+    renderCuneiformOutput(cuneiform, translit);
   }
 
   englishInput.addEventListener('input', () => {
@@ -214,11 +238,12 @@
   });
 
   // ---- Read more toggle ----
+  const readMoreLabel = readMoreBtn.querySelector('.read-more-label');
   readMoreBtn.addEventListener('click', () => {
     const isOpen = deepHistory.classList.toggle('open');
     deepHistory.setAttribute('aria-hidden', String(!isOpen));
     readMoreBtn.setAttribute('aria-expanded', String(isOpen));
-    readMoreBtn.textContent = isOpen ? 'Read less' : 'Read more…';
+    if (readMoreLabel) readMoreLabel.textContent = isOpen ? 'Read less' : 'Read more';
     if (isOpen) {
       setTimeout(() => {
         deepHistory.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -226,14 +251,29 @@
     }
   });
 
+  const copyLabel  = copyBtn.querySelector('.copy-label');
+  const copyGlyph  = copyBtn.querySelector('.copy-glyph');
+  const checkGlyph = copyBtn.querySelector('.check-glyph');
+
+  function flashCopied() {
+    copyBtn.classList.add('is-copied');
+    if (copyLabel)  copyLabel.textContent  = 'Copied';
+    if (copyGlyph)  copyGlyph.style.display  = 'none';
+    if (checkGlyph) checkGlyph.style.display = '';
+    setTimeout(() => {
+      copyBtn.classList.remove('is-copied');
+      if (copyLabel)  copyLabel.textContent  = 'Copy';
+      if (copyGlyph)  copyGlyph.style.display  = '';
+      if (checkGlyph) checkGlyph.style.display = 'none';
+    }, 1500);
+  }
+
   copyBtn.addEventListener('click', async () => {
     const text = cuneOutput.textContent;
     if (!text) return;
     try {
       await navigator.clipboard.writeText(text);
-      const old = copyBtn.textContent;
-      copyBtn.textContent = 'Copied';
-      setTimeout(() => { copyBtn.textContent = old; }, 1500);
+      flashCopied();
     } catch (err) {
       const range = document.createRange();
       range.selectNodeContents(cuneOutput);

@@ -30,11 +30,6 @@
     <div class="subtitle">𐎠𐎼𐎡𐎹 &nbsp;𐎭𐎡𐎱𐎡 &nbsp;𐎱𐎠𐎼𐎿</div>
   </header>
 
-  <!-- Corner slideshow inside the main page -->
-  <aside id="corner-slideshow" class="corner-slideshow hidden" aria-hidden="true">
-    <img id="corner-img" src="image5.jpg" alt="">
-  </aside>
-
   <!-- Translator UI (hidden until entry) -->
   <main id="app" class="hidden" aria-hidden="true">
     <section class="container input-container" id="input-container">
@@ -54,8 +49,20 @@
       <label>Old Persian Cuneiform</label>
       <div id="cuneiform-output" class="cuneiform-text empty"></div>
       <div id="translit-output" class="translit-text"></div>
-      <button id="copy-btn" class="copy-btn" type="button">Copy</button>
+      <button id="copy-btn" class="copy-btn" type="button" aria-label="Copy cuneiform">
+        <svg class="copy-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <path class="copy-glyph" d="M6 2.5h5a1.5 1.5 0 0 1 1.5 1.5v7a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 11V4A1.5 1.5 0 0 1 6 2.5Z M7.5 5h2"/>
+          <path class="check-glyph" d="M3.8 8.3l2.6 2.6L12.2 5" style="display:none"/>
+        </svg>
+        <span class="copy-label">Copy</span>
+      </button>
     </section>
+
+    <!-- Slideshow: floats on the right on desktop, sits inline above the
+         description text on mobile. -->
+    <aside id="corner-slideshow" class="corner-slideshow hidden" aria-hidden="true">
+      <img id="corner-img" src="image5.jpg" alt="">
+    </aside>
 
     <footer class="app-footer" id="app-footer">
       <p class="footer-credit">
@@ -102,7 +109,10 @@
 
         <button id="read-more-btn" class="read-more-btn" type="button"
                 aria-expanded="false" aria-controls="deep-history">
-          Read more…
+          <span class="read-more-label">Read more</span>
+          <svg class="read-more-chev" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+            <path d="M3 4.5 L6 7.5 L9 4.5"/>
+          </svg>
         </button>
 
         <div id="deep-history" class="deep-history" aria-hidden="true">
