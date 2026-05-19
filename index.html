@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>English → Old Persian Cuneiform</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Entry: small centered image. Each click rotates to the next. -->
+  <section id="entry" aria-label="Entry gallery">
+    <img id="entry-img" src="image1.jpg" alt="">
+    <p class="hint-text desktop-only">Press Enter</p>
+    <p class="hint-text mobile-only">Tap Anywhere</p>
+  </section>
+
+  <!-- Title bar -->
+  <header class="title-bar" id="title-bar">
+    <h1>
+      <span>English</span>
+      <svg class="title-arrow" viewBox="0 0 28 10" aria-hidden="true" focusable="false">
+        <path d="M1 5 H23 M18 1 L23 5 L18 9"
+              fill="none" stroke="currentColor" stroke-width="1.25"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Old Persian Cuneiform</span>
+    </h1>
+    <div class="subtitle">𐎠𐎼𐎡𐎹 &nbsp;𐎭𐎡𐎱𐎡 &nbsp;𐎱𐎠𐎼𐎿</div>
+  </header>
+
+  <!-- Corner slideshow inside the main page -->
+  <aside id="corner-slideshow" class="corner-slideshow hidden" aria-hidden="true">
+    <img id="corner-img" src="image5.jpg" alt="">
+  </aside>
+
+  <!-- Translator UI (hidden until entry) -->
+  <main id="app" class="hidden" aria-hidden="true">
+    <section class="container input-container" id="input-container">
+      <label for="english-input">English</label>
+      <textarea
+        id="english-input"
+        placeholder="Type something in English…   e.g.  I am Darius the great king."
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"></textarea>
+    </section>
+
+    <section class="container output-container" id="output-container">
+      <label>Old Persian Cuneiform</label>
+      <div id="cuneiform-output" class="cuneiform-text empty"></div>
+      <div id="translit-output" class="translit-text"></div>
+      <button id="copy-btn" class="copy-btn" type="button">Copy</button>
+    </section>
+
+    <footer class="app-footer" id="app-footer">
+      <p class="footer-credit">
+        Based on the Achaemenid Old Persian syllabary (c. 525 – 330 BCE),
+        as documented by Kent, Schmitt, and the Unicode Old Persian block.
+      </p>
+
+      <div class="read-more-wrap">
+        <p>
+          Here's a strange thing about Old Persian cuneiform: it was
+          probably invented on purpose, by one specific man, for one
+          specific reason. Darius the Great seems to have commissioned an
+          entirely new writing system around 525 BCE so he could carve
+          his life story onto a cliff face in a script no one else owned.
+          He basically says as much in the inscription itself.
+        </p>
+        <p>
+          Compared to the older Mesopotamian cuneiform it borrows its
+          wedges from — those terrifying systems with hundreds of signs
+          that took scribes a decade to master — Old Persian is small and
+          almost embarrassingly neat. Thirty-six phonetic signs. Eight
+          logograms for words the king used a lot:
+          <span class="op">𐏈</span> Auramazdā, <span class="op">𐏋</span>
+          king, <span class="op">𐏌</span> country,
+          <span class="op">𐏏</span> earth. A handful of numerals. A tiny
+          vertical wedge <span class="op">𐏐</span> between words. You
+          could learn the whole inventory in an afternoon.
+        </p>
+        <p>
+          And almost no one did. Outside royal monuments, hardly anyone
+          wrote anything in it. The empire ran its day-to-day paperwork
+          in Aramaic. Old Persian was for shouting at history.
+        </p>
+        <p>
+          If you're ever in western Iran on the old road from Babylon to
+          Ecbatana, look up. About a hundred metres above the highway, on
+          a sheer cliff no enemy could easily reach, Darius had his
+          entire origin story carved in three languages: Old Persian,
+          Elamite, and Babylonian. The relief at the top shows him with
+          his foot on a defeated rebel. The text underneath lists every
+          battle of the year he took the throne — nineteen of them, by
+          his count.
+        </p>
+
+        <button id="read-more-btn" class="read-more-btn" type="button"
+                aria-expanded="false" aria-controls="deep-history">
+          Read more…
+        </button>
+
+        <div id="deep-history" class="deep-history" aria-hidden="true">
+          <p>
+            For two and a half thousand years that inscription sat up
+            there, unreadable. Then in the 1830s a young British officer
+            named <em>Henry Rawlinson</em> decided he was going to copy
+            it. He climbed the cliff with ladders and ropes, sometimes
+            dangling from a single hand, dictating signs to an assistant.
+            Reading those signs — and then using them to crack the older
+            Babylonian half — eventually unlocked all of Mesopotamian
+            writing. Three thousand years of literature came back online
+            because one man refused to be sensible about a cliff.
+          </p>
+          <p>
+            The Achaemenid Persian Empire was, for a couple of centuries,
+            simply the biggest thing humans had ever built. At its peak
+            it ran from the Indus to the Aegean and from the Caucasus to
+            the deserts of Libya. Around fifty million people lived under
+            it, somewhere between a third and a half of everyone alive
+            on the planet at the time.
+          </p>
+          <p>
+            What's strange is how lightly it sat on them. The Persians
+            taxed you, they wanted troops when there was a war on, and
+            they expected you to call their king King of Kings. Past that
+            they mostly left you alone. They didn't care which gods you
+            worshipped. They didn't try to make you speak Persian. When
+            Cyrus took Babylon he restored the cults the previous king
+            had suppressed. When Cambyses took Egypt he had himself
+            crowned as pharaoh and made offerings to Egyptian gods. It
+            was an empire of light-touch governance — partly out of
+            principle, partly because nothing heavier-handed would have
+            held that much territory together.
+          </p>
+          <p>
+            The plumbing of it was famous: twenty provinces run by
+            appointed governors, a 2,700-kilometre paved road from Sardis
+            on the Aegean to Susa in the heartland, fast enough that
+            Herodotus claimed a royal messenger could ride it in a week,
+            uniform silver and gold coinage, and the world's first real
+            postal system.
+          </p>
+          <p>
+            <span class="op">𐎤𐎢𐎽𐎢𐏁</span> Cyrus the Great is the one
+            even the Greeks couldn't bring themselves to insult. He
+            started out as a minor princeling under the Median king
+            Astyages — his own grandfather, in some versions — and within
+            about twenty years had taken Media, Lydia (rich Croesus and
+            all), and Babylon. He took Babylon without a fight; the
+            gates opened for him. The first thing he did was release the
+            Jewish exiles his predecessors had dragged there and let them
+            go rebuild their temple. His Cylinder, dug up in 1879, is
+            sometimes called the world's first human-rights document.
+            It's a stretch, but only a small one. He died chasing nomads
+            in Central Asia, and nobody quite knows where.
+          </p>
+          <p>
+            His son <span class="op">𐎣𐎲𐎢𐎪𐎡𐎹</span> Cambyses II is
+            mostly famous for two things: conquering Egypt (enormous
+            achievement) and for whatever happened to him on the road
+            home (apparently very bad). Herodotus says he went mad. He
+            died, possibly by his own hand, while a usurper named
+            Gaumāta seized the throne back in Persia.
+          </p>
+          <p>
+            <span class="op">𐎭𐎠𐎼𐎹𐎺𐎢𐏁</span> Darius the Great is the
+            one everything comes back to. He wasn't the obvious heir; by
+            most accounts a distant cousin, a spear-bearer in the royal
+            guard. Inside a year of taking power he had crushed nine
+            revolts and stabilized a wobbling empire. Then he organized
+            it — satrapies, coinage, road network, a canal from the Nile
+            to the Red Sea, the new capital at Persepolis, the Behistun
+            inscription. He's the ancient world's great administrator.
+            He's also the reason you can read any of this.
+          </p>
+          <p>
+            His son <span class="op">𐎧𐏁𐎹𐎠𐎼𐏁𐎠</span> Xerxes
+            inherited the empire at its peak and is mostly remembered for
+            failing to add Greece to it. His 480 BCE invasion is the
+            Thermopylae-and-Salamis story: he forced the pass against
+            Leonidas's three hundred Spartans, burned an evacuated
+            Athens, then lost his fleet in the straits of Salamis and
+            went home. He kept building at Persepolis, was murdered in a
+            palace coup, and is the same Xerxes who shows up in the Book
+            of Esther as Ahasuerus.
+          </p>
+          <p>
+            <span class="op">𐎠𐎼𐎫𐎧𐏁𐏂𐎠</span> Artaxerxes I made peace
+            with Athens and ended the wars his father had started. He
+            let Ezra return to Jerusalem and sent Nehemiah back to
+            rebuild its walls. A quieter reign, which after Xerxes
+            counts as a virtue.
+          </p>
+          <p>
+            Darius III had the spectacular bad luck to be on the throne
+            when Alexander the Great arrived. He lost to him twice — at
+            Issus and at Gaugamela — and was then murdered in flight by
+            one of his own satraps. Alexander burned Persepolis the same
+            year. Drunk at a banquet, says one account, in revenge for
+            Xerxes' burning of Athens a century and a half before.
+          </p>
+          <p>
+            Persepolis itself was the imperial showpiece, started by
+            Darius around 518 BCE on a great stone terrace under a
+            mountain the Persians called the Mountain of Mercy. It
+            wasn't really a working capital — Susa and Babylon did the
+            day-to-day governing — but every spring at <em>Nowruz</em>,
+            the Persian new year, ambassadors from every corner of the
+            empire would climb the Apadana stairs in a long procession,
+            each carrying tribute. Horses from Cappadocia. Lapis from
+            Bactria. Gold dust from India. The processions are still
+            there, carved in low relief on the walls. Alexander's troops
+            looted the treasury and burned the palaces in 330 BCE. The
+            columns and reliefs that remain are some of the most
+            powerful things anyone has ever left behind in stone.
+          </p>
+          <p>
+            Read enough Old Persian inscriptions and two words come back
+            again and again: <span class="op">𐎠𐎼𐎫</span>
+            <em>arta</em>, which means truth, justice, right order — and
+            <span class="op">𐎭𐎼𐎢𐎥</span> <em>drauga</em>, the Lie.
+            The kings worshipped Auramazda, the wise lord of the prophet
+            Zoroaster, and saw themselves as his agents in a cosmic
+            argument between the two. Every revolt against the throne
+            was a small victory for the Lie. Every grain shipment that
+            got where it was supposed to go was a small triumph for the
+            Truth. It's a strikingly ethical way to think about
+            administration. Darius closes the Behistun text by warning
+            whoever reads it: <em>do not leave the right path; do not
+            act in defiance; whoever does, may Auramazda strike him.</em>
+            He meant it.
+          </p>
+          <p>
+            Old Persian itself is Indo-European — a cousin of Sanskrit
+            and the great-great-grandparent of the Persian people still
+            speak today. After Alexander, the spoken language went on.
+            The cuneiform did not. Through the Parthian and Sasanian
+            centuries the speech evolved into Middle Persian, and after
+            the Arab conquests it took on a modified Arabic script. The
+            thread is unbroken: if you can read a Tehran newspaper, you
+            are reading something very distantly descended from the
+            language of Darius.
+          </p>
+          <p>
+            The script itself sat unread for the better part of two
+            thousand years. Carsten Niebuhr made the first accurate
+            copies in the 1760s. A young German Latin teacher named
+            Grotefend guessed the names of Darius and Xerxes from those
+            copies in 1802, working it out essentially as a puzzle in
+            his spare time. Rawlinson, hanging off the cliff at Behistun,
+            did the rest.
+          </p>
+          <p>
+            These are exactly the same wedges the masons of Darius and
+            Xerxes cut into Persian limestone two and a half thousand
+            years ago. We didn't redesign them. We didn't tidy them up.
+            The shapes have not changed.
+          </p>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="translator.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
