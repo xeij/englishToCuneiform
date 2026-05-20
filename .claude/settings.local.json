@@ -18,7 +18,13 @@
       "Bash(curl -s -o NUL -w \"/translator  HTTP %{http_code}  %{size_download}b\\\\n\" http://127.0.0.1:8765/translator.js)",
       "Bash(curl -s -o NUL -w \"/image1.jpg  HTTP %{http_code}  %{size_download}b\\\\n\" http://127.0.0.1:8765/image1.jpg)",
       "Bash(curl -s -o NUL -w \"/image15.jpg HTTP %{http_code}  %{size_download}b\\\\n\" http://127.0.0.1:8765/image15.jpg)",
-      "PowerShell($urls = @\\('http://127.0.0.1:8765/index.html','http://127.0.0.1:8765/styles.css','http://127.0.0.1:8765/script.js'\\); foreach \\($u in $urls\\) { try { $r = Invoke-WebRequest -Uri $u -UseBasicParsing -TimeoutSec 10; Write-Output \"$u  ->  HTTP $\\($r.StatusCode\\)  \\(bytes: $\\($r.RawContentLength\\)\\)\" } catch { Write-Output \"$u  ->  ERROR $\\($_.Exception.Message\\)\" } })"
+      "PowerShell($urls = @\\('http://127.0.0.1:8765/index.html','http://127.0.0.1:8765/styles.css','http://127.0.0.1:8765/script.js'\\); foreach \\($u in $urls\\) { try { $r = Invoke-WebRequest -Uri $u -UseBasicParsing -TimeoutSec 10; Write-Output \"$u  ->  HTTP $\\($r.StatusCode\\)  \\(bytes: $\\($r.RawContentLength\\)\\)\" } catch { Write-Output \"$u  ->  ERROR $\\($_.Exception.Message\\)\" } })",
+      "WebFetch(domain:www.avesta.org)",
+      "Bash(node *)",
+      "Bash(curl *)",
+      "Bash(findstr /R \"section.*container\\\\|/section\\\\|aside\\\\|footer\\\\|main\")",
+      "Bash(findstr /C:\"ref-cell\")",
+      "Bash(findstr /R \"ref-cell\")"
     ]
   }
 }

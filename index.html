@@ -41,7 +41,7 @@
     <section class="container input-container" id="input-container">
       <div class="aurora-glow-1" aria-hidden="true"></div>
       <div class="aurora-glow-2" aria-hidden="true"></div>
-      <label for="english-input">English</label>
+      <label id="input-label" for="english-input">English</label>
       <div class="input-wrap">
         <div id="demo-overlay" class="demo-overlay hidden" aria-hidden="true"></div>
         <textarea
@@ -53,18 +53,186 @@
       </div>
     </section>
 
+    <!-- Swap-direction button. Lives in the gap between the input and
+         output containers and floats above the page on hover. Clicking it
+         flips the translator: cuneiform becomes the input, English becomes
+         the output. The current contents of each box are exchanged. -->
+    <div class="swap-row">
+      <button id="swap-btn" class="swap-btn" type="button" aria-label="Swap translation direction" title="Swap direction">
+        <svg class="swap-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M7 4 L7 19 M3.5 7.5 L7 4 L10.5 7.5"/>
+          <path d="M17 20 L17 5 M13.5 16.5 L17 20 L20.5 16.5"/>
+        </svg>
+      </button>
+    </div>
+
     <section class="container output-container" id="output-container">
       <div class="aurora-glow-1" aria-hidden="true"></div>
       <div class="aurora-glow-2" aria-hidden="true"></div>
-      <label>Old Persian Cuneiform</label>
+      <label id="output-label">Old Persian Cuneiform</label>
       <div id="cuneiform-output" class="cuneiform-text empty"></div>
       <div id="translit-output" class="translit-text"></div>
-      <button id="copy-btn" class="copy-btn" type="button" aria-label="Copy cuneiform">
+      <button id="copy-btn" class="copy-btn" type="button" aria-label="Copy output">
         <svg class="copy-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
           <path class="copy-glyph" d="M6 2.5h5a1.5 1.5 0 0 1 1.5 1.5v7a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 11V4A1.5 1.5 0 0 1 6 2.5Z M7.5 5h2"/>
           <path class="check-glyph" d="M3.8 8.3l2.6 2.6L12.2 5" style="display:none"/>
         </svg>
         <span class="copy-label">Copy</span>
+      </button>
+    </section>
+
+    <!-- Syllabary reference: every Old Persian sign on one page. The
+         Achaemenid inscriptions catalogued at avesta.org cover hundreds of
+         texts but reuse the same tiny inventory of signs — thirty-six
+         phonetic syllables, eight logograms, five numerals, and a word
+         divider. Click any sign to drop its English equivalent into the
+         input above. -->
+    <section class="container reference-container" id="reference-container">
+      <div class="aurora-glow-1" aria-hidden="true"></div>
+      <div class="aurora-glow-2" aria-hidden="true"></div>
+      <label>The Syllabary</label>
+      <p class="reference-intro">
+        Old Persian writes one syllable per sign. Most consonants have a
+        single sign that carries an inherent <em>a</em>; a handful of
+        consonants ride three vowels (k, g, t, d, m, n, r, v, j).
+      </p>
+
+      <div class="ref-group">
+        <h3 class="ref-heading">Vowels</h3>
+        <div class="ref-grid">
+          <button type="button" class="ref-cell"><span class="ref-glyph">𐎠</span><span class="ref-translit">a</span></button>
+          <button type="button" class="ref-cell"><span class="ref-glyph">𐎡</span><span class="ref-translit">i</span></button>
+          <button type="button" class="ref-cell" data-insert="u"><span class="ref-glyph">𐎢</span><span class="ref-translit">u</span></button>
+        </div>
+      </div>
+
+      <div class="ref-group">
+        <h3 class="ref-heading">Syllables — Ca / Ci / Cu</h3>
+        <div class="ref-grid">
+          <button type="button" class="ref-cell" data-insert="ka"><span class="ref-glyph">𐎣</span><span class="ref-translit">ka</span></button>
+          <button type="button" class="ref-cell" data-insert="ku"><span class="ref-glyph">𐎤</span><span class="ref-translit">ku</span></button>
+          <button type="button" class="ref-cell" data-insert="ga"><span class="ref-glyph">𐎥</span><span class="ref-translit">ga</span></button>
+          <button type="button" class="ref-cell" data-insert="gu"><span class="ref-glyph">𐎦</span><span class="ref-translit">gu</span></button>
+          <button type="button" class="ref-cell" data-insert="kha"><span class="ref-glyph">𐎧</span><span class="ref-translit">xa (kh)</span></button>
+          <button type="button" class="ref-cell" data-insert="cha"><span class="ref-glyph">𐎨</span><span class="ref-translit">ca (ch)</span></button>
+          <button type="button" class="ref-cell" data-insert="ja"><span class="ref-glyph">𐎩</span><span class="ref-translit">ja</span></button>
+          <button type="button" class="ref-cell" data-insert="ji"><span class="ref-glyph">𐎪</span><span class="ref-translit">ji</span></button>
+          <button type="button" class="ref-cell" data-insert="ta"><span class="ref-glyph">𐎫</span><span class="ref-translit">ta</span></button>
+          <button type="button" class="ref-cell" data-insert="tu"><span class="ref-glyph">𐎬</span><span class="ref-translit">tu</span></button>
+          <button type="button" class="ref-cell" data-insert="da"><span class="ref-glyph">𐎭</span><span class="ref-translit">da</span></button>
+          <button type="button" class="ref-cell" data-insert="di"><span class="ref-glyph">𐎮</span><span class="ref-translit">di</span></button>
+          <button type="button" class="ref-cell" data-insert="du"><span class="ref-glyph">𐎯</span><span class="ref-translit">du</span></button>
+          <button type="button" class="ref-cell" data-insert="tha"><span class="ref-glyph">𐎰</span><span class="ref-translit">θa (th)</span></button>
+          <button type="button" class="ref-cell" data-insert="pa"><span class="ref-glyph">𐎱</span><span class="ref-translit">pa</span></button>
+          <button type="button" class="ref-cell" data-insert="ba"><span class="ref-glyph">𐎲</span><span class="ref-translit">ba</span></button>
+          <button type="button" class="ref-cell" data-insert="fa"><span class="ref-glyph">𐎳</span><span class="ref-translit">fa</span></button>
+          <button type="button" class="ref-cell" data-insert="na"><span class="ref-glyph">𐎴</span><span class="ref-translit">na</span></button>
+          <button type="button" class="ref-cell" data-insert="nu"><span class="ref-glyph">𐎵</span><span class="ref-translit">nu</span></button>
+          <button type="button" class="ref-cell" data-insert="ma"><span class="ref-glyph">𐎶</span><span class="ref-translit">ma</span></button>
+          <button type="button" class="ref-cell" data-insert="mi"><span class="ref-glyph">𐎷</span><span class="ref-translit">mi</span></button>
+          <button type="button" class="ref-cell" data-insert="mu"><span class="ref-glyph">𐎸</span><span class="ref-translit">mu</span></button>
+          <button type="button" class="ref-cell" data-insert="ya"><span class="ref-glyph">𐎹</span><span class="ref-translit">ya</span></button>
+          <button type="button" class="ref-cell" data-insert="va"><span class="ref-glyph">𐎺</span><span class="ref-translit">va</span></button>
+          <button type="button" class="ref-cell" data-insert="vi"><span class="ref-glyph">𐎻</span><span class="ref-translit">vi</span></button>
+          <button type="button" class="ref-cell" data-insert="ra"><span class="ref-glyph">𐎼</span><span class="ref-translit">ra</span></button>
+          <button type="button" class="ref-cell" data-insert="ru"><span class="ref-glyph">𐎽</span><span class="ref-translit">ru</span></button>
+          <button type="button" class="ref-cell" data-insert="la"><span class="ref-glyph">𐎾</span><span class="ref-translit">la</span></button>
+          <button type="button" class="ref-cell" data-insert="sa"><span class="ref-glyph">𐎿</span><span class="ref-translit">sa</span></button>
+          <button type="button" class="ref-cell" data-insert="za"><span class="ref-glyph">𐏀</span><span class="ref-translit">za</span></button>
+          <button type="button" class="ref-cell" data-insert="sha"><span class="ref-glyph">𐏁</span><span class="ref-translit">ša (sh)</span></button>
+          <button type="button" class="ref-cell" data-insert="tsa"><span class="ref-glyph">𐏂</span><span class="ref-translit">ça</span></button>
+          <button type="button" class="ref-cell" data-insert="ha"><span class="ref-glyph">𐏃</span><span class="ref-translit">ha</span></button>
+        </div>
+      </div>
+
+      <div class="ref-group">
+        <h3 class="ref-heading">Logograms — the king's shorthand</h3>
+        <p class="ref-sub">
+          Eight whole-word signs for the vocabulary the Achaemenids used
+          most. Each one collapses a long word into a single wedge cluster.
+        </p>
+        <div class="ref-grid ref-grid-wide">
+          <button type="button" class="ref-cell" data-insert="auramazda"><span class="ref-glyph">𐏈</span><span class="ref-translit">Auramazdā</span><span class="ref-note">the wise lord</span></button>
+          <button type="button" class="ref-cell"><span class="ref-glyph">𐏉</span><span class="ref-translit">Auramazdā</span><span class="ref-note">alt. form</span></button>
+          <button type="button" class="ref-cell"><span class="ref-glyph">𐏊</span><span class="ref-translit">Auramazdāha</span><span class="ref-note">of A. (gen.)</span></button>
+          <button type="button" class="ref-cell" data-insert="king"><span class="ref-glyph">𐏋</span><span class="ref-translit">xšāyaθiya</span><span class="ref-note">king</span></button>
+          <button type="button" class="ref-cell" data-insert="country"><span class="ref-glyph">𐏌</span><span class="ref-translit">dahyāuš</span><span class="ref-note">country / land</span></button>
+          <button type="button" class="ref-cell" data-insert="countries"><span class="ref-glyph">𐏍</span><span class="ref-translit">dahyūnām</span><span class="ref-note">of countries</span></button>
+          <button type="button" class="ref-cell" data-insert="god"><span class="ref-glyph">𐏎</span><span class="ref-translit">baga</span><span class="ref-note">god</span></button>
+          <button type="button" class="ref-cell" data-insert="earth"><span class="ref-glyph">𐏏</span><span class="ref-translit">būmi</span><span class="ref-note">earth</span></button>
+        </div>
+      </div>
+
+      <div class="ref-group">
+        <h3 class="ref-heading">Numerals &amp; word divider</h3>
+        <p class="ref-sub">
+          Additive, largest first — like Roman numerals. There is no zero.
+          A single small vertical wedge separates words.
+        </p>
+        <div class="ref-grid ref-grid-wide">
+          <button type="button" class="ref-cell" data-insert="1"><span class="ref-glyph">𐏑</span><span class="ref-translit">1</span></button>
+          <button type="button" class="ref-cell" data-insert="2"><span class="ref-glyph">𐏒</span><span class="ref-translit">2</span></button>
+          <button type="button" class="ref-cell" data-insert="10"><span class="ref-glyph">𐏓</span><span class="ref-translit">10</span></button>
+          <button type="button" class="ref-cell" data-insert="20"><span class="ref-glyph">𐏔</span><span class="ref-translit">20</span></button>
+          <button type="button" class="ref-cell" data-insert="100"><span class="ref-glyph">𐏕</span><span class="ref-translit">100</span></button>
+          <button type="button" class="ref-cell"><span class="ref-glyph">𐏐</span><span class="ref-translit">·</span><span class="ref-note">word divider</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Famous phrases: six lines that recur across the inscriptions
+         catalogued at avesta.org. Click any one to drop the English into
+         the translator above. -->
+    <section class="container phrases-container" id="phrases-container">
+      <div class="aurora-glow-1" aria-hidden="true"></div>
+      <div class="aurora-glow-2" aria-hidden="true"></div>
+      <label>Famous Phrases</label>
+      <p class="phrases-intro">
+        Phrases that recur, almost word-for-word, across the
+        Behistun cliff, the Naqsh-e Rustam tomb, the Persepolis
+        terrace, and the Susa foundation tablets. Tap to translate.
+      </p>
+
+      <button type="button" class="phrase-card" data-insert="I am Darius the great king, king of kings, king of countries.">
+        <div class="phrase-cune">𐎠𐎭𐎶 𐏐 𐎭𐎠𐎼𐎹𐎺𐎢𐏁 𐏐 𐏋 𐏐 𐎺𐏀𐎼𐎣 𐏐 𐏋 𐏐 𐏋𐎠𐎴𐎠𐎶 𐏐 𐏌𐎠𐎶</div>
+        <div class="phrase-translit">adam Dārayavauš xšāyaθiya vazraka xšāyaθiya xšāyaθiyānām xšāyaθiya dahyūnām</div>
+        <div class="phrase-english">"I am Darius the great king, king of kings, king of countries."</div>
+        <div class="phrase-source">Behistun (DB) · the opening formula</div>
+      </button>
+
+      <button type="button" class="phrase-card" data-insert="Says Darius the king">
+        <div class="phrase-cune">𐎰𐎠𐎫𐎡𐎹 𐏐 𐎭𐎠𐎼𐎹𐎺𐎢𐏁 𐏐 𐏋</div>
+        <div class="phrase-translit">θātiy Dārayavauš xšāyaθiya</div>
+        <div class="phrase-english">"Says Darius the king."</div>
+        <div class="phrase-source">Repeated 76× in the Behistun text</div>
+      </button>
+
+      <button type="button" class="phrase-card" data-insert="By the favor of Auramazda">
+        <div class="phrase-cune">𐎺𐏁𐎴𐎠 𐏐 𐎠𐎢𐎼𐎶𐏀𐎭𐎠𐏃</div>
+        <div class="phrase-translit">vašnā Auramazdāha</div>
+        <div class="phrase-english">"By the favor of Auramazdā."</div>
+        <div class="phrase-source">The Achaemenid signature line</div>
+      </button>
+
+      <button type="button" class="phrase-card" data-insert="A great god is Auramazda, who created this earth, who created that sky, who created man.">
+        <div class="phrase-cune">𐏎 𐏐 𐎺𐏀𐎼𐎣 𐏐 𐏈 𐏐 𐏃𐎹 𐏐 𐎡𐎶𐎠𐎶 𐏐 𐏏𐎶 𐏐 𐎠𐎭𐎠</div>
+        <div class="phrase-translit">baga vazraka Auramazdā, haya imām būmim adā</div>
+        <div class="phrase-english">"A great god is Auramazdā, who created this earth, who created that sky, who created man, who created happiness for man."</div>
+        <div class="phrase-source">Naqsh-e Rustam (DNa) · opening</div>
+      </button>
+
+      <button type="button" class="phrase-card" data-insert="I am Cyrus the king, an Achaemenid.">
+        <div class="phrase-cune">𐎠𐎭𐎶 𐏐 𐎤𐎢𐎽𐎢𐏁 𐏐 𐏋 𐏐 𐏃𐎧𐎠𐎶𐎴𐎡𐏁𐎡𐎹</div>
+        <div class="phrase-translit">adam Kūruš xšāyaθiya Haxāmanišiya</div>
+        <div class="phrase-english">"I am Cyrus the king, an Achaemenid."</div>
+        <div class="phrase-source">Pasargadae (CMa)</div>
+      </button>
+
+      <button type="button" class="phrase-card" data-insert="May Auramazda protect this country from army, from famine, from the lie.">
+        <div class="phrase-cune">𐎠𐎢𐎼𐎶𐏀𐎭𐎠 𐏐 𐎡𐎶𐎠𐎶 𐏐 𐏌 𐏐 𐎱𐎠𐎬𐎺 𐏐 𐏃𐎨𐎠 𐏐 𐏃𐎡𐎴𐎠𐎹𐎠 𐏐 𐏃𐎨𐎠 𐏐 𐎭𐎼𐎢𐎥𐎠</div>
+        <div class="phrase-translit">Auramazdā imām dahyāum pātuv hacā hainayā hacā dušiyārā hacā draugā</div>
+        <div class="phrase-english">"May Auramazdā protect this country from the hostile army, from famine, from the Lie."</div>
+        <div class="phrase-source">Persepolis (DPd) · royal prayer</div>
       </button>
     </section>
 
@@ -290,6 +458,83 @@
             Xerxes cut into Persian limestone two and a half thousand
             years ago. We didn't redesign them. We didn't tidy them
             up. The shapes have not changed.
+          </p>
+          <p>
+            A small thing that helps when you start reading these texts.
+            Almost every paragraph opens with the same three signs:
+            <span class="op">𐎰𐎠𐎫𐎡𐎹</span> <em>θātiy</em>, "he says."
+            Then the king's name. Then the title. Behistun, the longest
+            of them, repeats the formula seventy-six times. It is not
+            laziness. It is the voice of a king dictated through a
+            chisel — every paragraph is a sentence the king is
+            literally saying to the cliff face. Two and a half thousand
+            years later you can still hear him beginning to speak.
+          </p>
+          <p>
+            Scholars catalogue the inscriptions with three-letter codes.
+            The first letter is the king — <em>D</em> for Darius,
+            <em>X</em> for Xerxes, <em>A</em> for Artaxerxes,
+            <em>C</em> for Cyrus. The second is the site —
+            <em>B</em> Behistun, <em>P</em> Persepolis, <em>N</em>
+            Naqsh-e Rustam, <em>S</em> Susa, <em>H</em> Hamadan,
+            <em>E</em> Elvend, <em>V</em> Van, <em>Z</em> Suez. The
+            third is just a sequence letter. So DB is Darius at
+            Behistun. DNa is Darius at Naqsh-e Rustam, text A — his
+            tomb. XPh is Xerxes at Persepolis, text H — the famous
+            "daiva inscription" where Xerxes brags about smashing some
+            other people's idols. Once you have the codes, the whole
+            corpus opens up. There are about two hundred of them.
+          </p>
+          <p>
+            On the tomb at Naqsh-e Rustam, Darius lists every country
+            he ruled, in order, like a roll call. Twenty-three of them.
+            <em>Persia, Elam, Babylonia, Assyria, Arabia, Egypt,
+            Lydia, Ionia, Media, Armenia, Cappadocia, Parthia,
+            Drangiana, Aria, Chorasmia, Bactria, Sogdia, Gandhara,
+            Scythia, Sattagydia, Arachosia, Maka, India.</em> Above the
+            list, in relief, thirty representatives of those peoples
+            hold up his throne with their bare hands. The implication
+            is exactly what it looks like.
+          </p>
+          <p>
+            The script itself is a thing of strange design. It has
+            <em>thirty-six</em> phonetic signs, but it isn't a true
+            alphabet and it isn't a normal syllabary either. Most
+            consonants have one sign that carries an inherent
+            <em>a</em>. Nine consonants — k, g, t, d, m, n, r, v, j —
+            have an extra sign for the same consonant with <em>i</em>
+            or <em>u</em>. So you can write <em>ka</em>, <em>ki</em>,
+            <em>ku</em> as separate signs, but only <em>pa</em> for any
+            <em>p</em>-syllable. Why some consonants and not others?
+            Nobody really knows. It looks like a writing system
+            designed in a single sitting by someone making it up as
+            they went.
+          </p>
+          <p>
+            The Cyrus Cylinder, dug up in the rubble of Babylon in
+            1879, is not in Old Persian at all — it's in Akkadian
+            cuneiform, addressed to Cyrus's new Babylonian subjects in
+            their own language. It opens with the standard Babylonian
+            cursing of the previous king as a tyrant who neglected the
+            gods, then announces Cyrus as their rescuer, sent by
+            Marduk. Then it does something that has no real parallel
+            in the ancient near east: it says he returned the displaced
+            peoples to their homes and let them rebuild their temples.
+            The Hebrew Bible records the same policy from the other
+            side of the transaction. The cylinder is now in the
+            British Museum. A replica sits at the United Nations.
+          </p>
+          <p>
+            Two words show up on the Persepolis terrace inscriptions
+            with surprising regularity:
+            <span class="op">𐏁𐎡𐎹𐎠𐎫𐎡𐏁</span> <em>šiyātiš</em>,
+            "happiness," and <span class="op">𐎢𐎱𐎿𐎫𐎠</span>
+            <em>upastā</em>, "aid." Auramazdā creates happiness for
+            mankind. The king asks for Auramazdā's aid in everything he
+            builds. Read enough of them and they start to feel less
+            like propaganda and more like a real theology of
+            governance — the king as a craftsman, the empire as a
+            project the gods are quietly helping along.
           </p>
         </div>
       </div>

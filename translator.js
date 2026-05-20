@@ -112,12 +112,39 @@ const DICTIONARY = {
   'india':        { op: HA + I + DA + U + SHA,                           translit: 'Hiduš' },
   'greece':       { op: YA + U + NA,                                     translit: 'Yauna' },
   'greek':        { op: YA + U + NA,                                     translit: 'Yauna' },
+  'ionia':        { op: YA + U + NA,                                     translit: 'Yauna' },
+  'ionian':       { op: YA + U + NA,                                     translit: 'Yauna' },
   'elam':         { op: U + VA + JA,                                     translit: 'Ūvja' },
   'parthia':      { op: PA + RA + THA + VA,                              translit: 'Parθava' },
   'bactria':      { op: BA + A + XA + TA + RA + I + SHA,                 translit: 'Bāxtriš' },
   'arabia':       { op: A + RA + BA + A + YA,                            translit: 'Arabāya' },
   'lydia':        { op: SA + PA + RA + DA,                               translit: 'Sparda' },
-  'armenia':      { op: A + RA + MI + NA,                                translit: 'Armina' },
+  'sardis':       { op: SA + PA + RA + DA,                               translit: 'Sparda' },
+  'armenia':      { op: A + RA + MI + I + NA,                            translit: 'Armina' },
+  'scythia':      { op: SA + KA + A,                                     translit: 'Sakā' },
+  'scythian':     { op: SA + KA + A,                                     translit: 'Sakā' },
+  'saka':         { op: SA + KA + A,                                     translit: 'Sakā' },
+  'sogdia':       { op: SA + U + GU + U + DA,                            translit: 'Suguda' },
+  'sogdiana':     { op: SA + U + GU + U + DA,                            translit: 'Suguda' },
+  'cappadocia':   { op: KA + TA + PA + TU + U + KA,                      translit: 'Katpatuka' },
+  'gandhara':     { op: GA + DA + A + RA,                                translit: 'Gadāra' },
+  'arachosia':    { op: HA + RA + U + VA + TA + I + SHA,                 translit: 'Harauvatiš' },
+  'drangiana':    { op: ZA + RA + KA,                                    translit: 'Zranka' },
+  'margiana':     { op: MA + RA + GU + U + SHA,                          translit: 'Marguš' },
+  'aria':         { op: HA + RA + I + VA,                                translit: 'Haraiva' },
+  'chorasmia':    { op: U + VA + A + RA + ZA + MI + I + YA,              translit: 'Uvārazmiya' },
+  'libya':        { op: PA + U + TA + A + YA,                            translit: 'Putāyā' },
+  'libyan':       { op: PA + U + TA + A + YA,                            translit: 'Putāyā' },
+  'nubia':        { op: KU + U + SHA + I + YA,                           translit: 'Kušiya' },
+  'ethiopia':     { op: KU + U + SHA + I + YA,                           translit: 'Kušiya' },
+  'cush':         { op: KU + U + SHA + I + YA,                           translit: 'Kušiya' },
+  'thrace':       { op: SA + KU + U + DA + RA,                           translit: 'Skudra' },
+  'maka':         { op: MA + KA + A,                                     translit: 'Makā' },
+  'pasargadae':   { op: PA + A + I + SHA + I + YA + A + U + VA + A + DA + A,  translit: 'Paišiyāuvādā' },
+  'behistun':     { op: BA + GA + A + SA + TA + A + NA,                  translit: 'Bagastāna' },
+  'persepolis':   { op: PA + A + RA + SA,                                translit: 'Pārsa' },
+  'susa':         { op: SHA + U + SHA + A,                               translit: 'Šūšā' },
+  'ecbatana':     { op: HA + GA + MA + TA + A + NA,                      translit: 'Hagmatāna' },
 
   // ---- Achaemenid kings ----
   'darius':       { op: DA + A + RA + YA + VA + U + SHA,                 translit: 'Dārayavauš' },
@@ -126,6 +153,15 @@ const DICTIONARY = {
   'cambyses':     { op: KA + BA + U + JI + I + YA,                       translit: 'Kambūjiya' },
   'artaxerxes':   { op: A + RA + TA + XA + SHA + CCA + A,                translit: 'Artaxšaçā' },
   'hystaspes':    { op: VI + I + SHA + TA + A + SA + PA,                 translit: 'Vištāspa' },
+  'achaemenes':   { op: HA + XA + A + MA + NA + I + SHA,                 translit: 'Haxāmaniš' },
+  'achaemenid':   { op: HA + XA + A + MA + NA + I + SHA + I + YA,        translit: 'Haxāmanišiya' },
+  'achaemenian':  { op: HA + XA + A + MA + NA + I + SHA + I + YA,        translit: 'Haxāmanišiya' },
+  'gaumata':      { op: GA + U + MA + A + TA,                            translit: 'Gaumāta' },
+  'bardiya':      { op: BA + RA + DA + I + YA,                           translit: 'Bardiya' },
+  'smerdis':      { op: BA + RA + DA + I + YA,                           translit: 'Bardiya' },
+  'intaphernes':  { op: VI + I + NA + DA + FA + RA + NA + A,             translit: 'Vindafarnā' },
+  'otanes':       { op: U + TA + A + NA,                                 translit: 'Utāna' },
+  'gobryas':      { op: GA + U + BA + RU + U + VA,                       translit: 'Gaubaruva' },
 
   // ---- Common nouns ----
   'man':       { op: MA + RA + TA + I + YA,                              translit: 'martiya' },
@@ -205,11 +241,34 @@ const DICTIONARY = {
   'protects':  { op: PA + A + TA + U + VA,                               translit: 'pātuv' },
   'rules':     { op: XA + SHA + A + YA + THA + I + YA,                   translit: 'xšāyaθiy' },
   'rule':      { op: XA + SHA + A + YA + THA + I + YA,                   translit: 'xšāyaθiy' },
+  'aid':       { op: U + PA + SA + TA + A,                               translit: 'upastā' },
+  'help':      { op: U + PA + SA + TA + A,                               translit: 'upastā' },
+  'bore':      { op: A + BA + RA,                                        translit: 'abara' },
+  'bear':      { op: BA + RA + TA + I + YA,                              translit: 'baratiy' },
+  'bestowed':  { op: FA + RA + A + BA + RA,                              translit: 'frābara' },
+  'bestow':    { op: FA + RA + A + BA + RA + TA + I + YA,                translit: 'frābaratiy' },
+  'sent':      { op: A + FA + RA + A + I + SHA + YA + MA,                translit: 'frāišayam' },
+  'send':      { op: FA + RA + A + I + SHA + YA + MA + I + YA,           translit: 'frāišayāmiy' },
+  'commanded': { op: NA + I + YA + SHA + TA + A + YA + MA,               translit: 'niyaštāyam' },
+  'order':     { op: FA + RA + A + MA + A + YA + A + TA + A,             translit: 'frāmāyatā' },
+  'smote':     { op: A + JA + NA + MA,                                   translit: 'ajanam' },
+  'smite':     { op: JA + A + NA + TA + I + YA,                          translit: 'jantiy' },
+  'kill':      { op: JA + A + NA + TA + I + YA,                          translit: 'jantiy' },
+  'killed':    { op: A + JA + NA + MA,                                   translit: 'ajanam' },
+  'seized':    { op: A + GA + RA + BA + A + YA + MA,                     translit: 'agrabāyam' },
+  'fled':      { op: A + MU + U + THA,                                   translit: 'amūθa' },
+  'fought':    { op: HA + MA + RA + NA + MA,                             translit: 'hamarana' },
+  'battle':    { op: HA + MA + RA + NA + MA,                             translit: 'hamarana' },
+  'rebel':     { op: HA + MI + I + CCA + I + YA,                         translit: 'hamiçiya' },
+  'rebellion': { op: HA + MI + I + CCA + I + YA,                         translit: 'hamiçiya' },
+  'revolt':    { op: HA + MI + I + CCA + I + YA,                         translit: 'hamiçiya' },
+  'death':     { op: MA + RA + SHA + I + YA + U,                         translit: 'maršiyu' },
+  'die':       { op: MA + RA + SHA + I + YA + U,                         translit: 'maršiyu' },
+  'died':      { op: A + MA + RA + I + YA + TA + A,                      translit: 'amariyatā' },
 
   // ---- Particles / conjunctions / prepositions ----
   'and':       { op: U + TA + A,                                         translit: 'utā' },
   'also':      { op: U + TA + A,                                         translit: 'utā' },
-  'by':        { op: VA + SHA + NA + A,                                  translit: 'vašnā' },
   'with':      { op: HA + DA + A,                                        translit: 'hadā' },
   'from':      { op: HA + CA + A,                                        translit: 'hacā' },
   'in':        { op: A + NA + TA + RA,                                   translit: 'antar' },
@@ -236,6 +295,35 @@ const DICTIONARY = {
   'long':      { op: DA + A + RA + GA,                                   translit: 'darga' },
   'true':      { op: HA + SHA + I + YA,                                  translit: 'hašiya' },
   'wise':      { op: HA + U + ZA + A + NA + I + YA,                      translit: 'huzānaiy' },
+
+  // ---- Inscription formulas, titles, and military terms ----
+  'spear':      { op: A + RA + SHA + TA + I,                             translit: 'aršti' },
+  'bow':        { op: THA + A + NA + VA + RA,                            translit: 'θanvar' },
+  'arrow':      { op: TA + I + GA + RA + A,                              translit: 'tigrā' },
+  'shield':     { op: SA + PA + RA,                                      translit: 'spar' },
+  'gate':       { op: DU + VA + RA + THA + I,                            translit: 'duvarθī' },
+  'door':       { op: DU + VA + RA + THA + I,                            translit: 'duvarθī' },
+  'column':     { op: SA + TU + U + NA + A,                              translit: 'stūnā' },
+  'pillar':     { op: SA + TU + U + NA + A,                              translit: 'stūnā' },
+  'inscription':{ op: DI + I + PA + I,                                   translit: 'dipī' },
+  'writing':    { op: DI + I + PA + I,                                   translit: 'dipī' },
+  'scribe':     { op: DI + I + PA + I + VA + RA,                         translit: 'dipīvara' },
+  'tribute':    { op: BA + A + JI + I,                                   translit: 'bāji' },
+  'tax':        { op: BA + A + JI + I,                                   translit: 'bāji' },
+  'law':        { op: DA + A + TA,                                       translit: 'dāta' },
+  'judge':      { op: DA + A + TA + BA + RA,                             translit: 'dātabara' },
+  'satrap':     { op: XA + SHA + A + CCA + PA + A + VA + A,              translit: 'xšaçapāvā' },
+  'satrapy':    { op: XA + SHA + A + CCA + PA + A + VA + A + NA + A,     translit: 'xšaçapāvanā' },
+  'enemy':      { op: HA + I + NA + A,                                   translit: 'hainā' },
+  'friend':     { op: DA + U + SHA + TA + A,                             translit: 'dauštā' },
+  'beloved':    { op: FA + RA + I + YA,                                  translit: 'friya' },
+
+  // ---- "By the favor of" formula & frequent particles ----
+  'favor':      { op: VA + SHA + NA + A,                                 translit: 'vašnā' },
+  'favour':     { op: VA + SHA + NA + A,                                 translit: 'vašnā' },
+  'time':       { op: ZA + RA + VA + NA,                                 translit: 'zruvan' },
+  'forever':    { op: YA + A + VA + A,                                   translit: 'yāvā' },
+  'always':     { op: YA + A + VA + A,                                   translit: 'yāvā' },
 
   // ---- Greetings & common phrases (composed) ----
   'hello':     { op: SHA + I + YA + A + TA + I + SHA,                    translit: 'šiyātiš' }, // 'happiness/peace'
@@ -406,7 +494,7 @@ function transliterate(word) {
 // Old Persian had no articles, and used case endings instead of standalone
 // prepositions like English "of" / "to" / "for". Drop these silently rather
 // than mangle them with phonetic transliteration.
-const SKIP_WORDS = new Set(['the', 'a', 'an', 'of', 'to', 'for']);
+const SKIP_WORDS = new Set(['the', 'a', 'an', 'of', 'to', 'for', 'by']);
 
 // === MAIN TRANSLATION FUNCTION ===
 function translateToCuneiform(text) {
@@ -463,5 +551,143 @@ function romanize(word) {
     .replace(/q/g, 'θ');
 }
 
+// === REVERSE TRANSLATION: CUNEIFORM -> ENGLISH ===
+// Built once from the forward DICTIONARY. The first-seen English form wins
+// when multiple English words map to the same Old Persian spelling, so the
+// dictionary's natural ordering (canonical form before inflections) controls
+// what we pick. e.g. 'persia' is seen before 'persian', so 𐎱𐎠𐎼𐎿 → "persia".
+const REVERSE_DICT = (() => {
+  const m = new Map();
+  for (const eng of Object.keys(DICTIONARY)) {
+    const entry = DICTIONARY[eng];
+    if (!m.has(entry.op)) m.set(entry.op, { english: eng, translit: entry.translit });
+  }
+  return m;
+})();
+
+// Each phonetic sign mapped to its Latin syllable. Used for romanizing
+// cuneiform words that aren't in the dictionary and need a phonetic
+// fallback rendering.
+const SIGN_TO_LATIN = {
+  [A]:  'a',   [I]:  'i',   [U]:  'u',
+  [KA]: 'ka',  [KU]: 'ku',  [GA]: 'ga',  [GU]: 'gu',
+  [XA]: 'xa',  [CA]: 'ca',  [JA]: 'ja',  [JI]: 'ji',
+  [TA]: 'ta',  [TU]: 'tu',  [DA]: 'da',  [DI]: 'di',  [DU]: 'du',
+  [THA]:'θa',  [PA]: 'pa',  [BA]: 'ba',  [FA]: 'fa',
+  [NA]: 'na',  [NU]: 'nu',  [MA]: 'ma',  [MI]: 'mi',  [MU]: 'mu',
+  [YA]: 'ya',  [VA]: 'va',  [VI]: 'vi',
+  [RA]: 'ra',  [RU]: 'ru',  [LA]: 'la',
+  [SA]: 'sa',  [ZA]: 'za',  [SHA]:'ša',  [CCA]:'ça',  [HA]: 'ha',
+};
+
+// Plain-English glosses for the eight logograms.
+const LOGO_GLOSS = {
+  [LOGO_AURAMAZDA]:   { english: 'Auramazda',     translit: 'Auramazdā' },
+  [LOGO_AURAMAZDA2]:  { english: 'Auramazda',     translit: 'Auramazdā' },
+  [LOGO_AURAMAZDAHA]: { english: 'of Auramazda',  translit: 'Auramazdāha' },
+  [LOGO_KING]:        { english: 'king',          translit: 'xšāyaθiya' },
+  [LOGO_COUNTRY]:     { english: 'country',       translit: 'dahyāuš' },
+  [LOGO_COUNTRIES]:   { english: 'countries',     translit: 'dahyūnām' },
+  [LOGO_BAGA]:        { english: 'god',           translit: 'baga' },
+  [LOGO_BUMI]:        { english: 'earth',         translit: 'būmi' },
+};
+
+// Numeral values for additive reconstruction.
+const NUM_VAL = { [N1]: 1, [N2]: 2, [N10]: 10, [N20]: 20, [N100]: 100 };
+
+// Strip diacritics from a transliteration so the English-side output reads
+// cleanly. "Dārayavauš" → "darayavaush", "θātiy" → "thatiy".
+function stripDiacritics(s) {
+  return s
+    .replace(/[āĀ]/g, 'a').replace(/[īĪ]/g, 'i').replace(/[ūŪ]/g, 'u')
+    .replace(/[ēĒ]/g, 'e').replace(/[ōŌ]/g, 'o')
+    .replace(/[θ]/g, 'th').replace(/[ð]/g, 'd')
+    .replace(/[š]/g, 'sh').replace(/[ž]/g, 'zh')
+    .replace(/[ç]/g, 'ts').replace(/[ḫ]/g, 'kh');
+}
+
+// Romanize an unknown cuneiform word by concatenating its sign-syllables,
+// then collapsing the obvious doubled-vowel sequences that Old Persian
+// orthography uses for long vowels: Ca + a → Cā, Ci + i → Cī, Cu + u → Cū.
+function romanizeCuneWord(chars) {
+  let s = '';
+  for (const c of chars) {
+    if (SIGN_TO_LATIN[c]) s += SIGN_TO_LATIN[c];
+    else if (LOGO_GLOSS[c]) s += LOGO_GLOSS[c].translit;
+    else if (NUM_VAL[c]) s += String(NUM_VAL[c]);
+    // unknown sign: skip silently rather than insert noise
+  }
+  return s
+    .replace(/aa/g, 'ā')
+    .replace(/ii/g, 'ī')
+    .replace(/uu/g, 'ū');
+}
+
+function translateToEnglish(text) {
+  if (!text || !text.trim()) return { english: '', translit: '' };
+
+  // Tokenize: split on the Old Persian word divider AND any whitespace.
+  // Anything that isn't a cuneiform glyph, divider, or whitespace becomes
+  // its own token (so users can mix in punctuation or stray characters
+  // without breaking the split).
+  const tokens = [];
+  let buf = '';
+  for (const ch of Array.from(text)) {
+    if (ch === DIV || /\s/.test(ch)) {
+      if (buf) { tokens.push(buf); buf = ''; }
+    } else {
+      buf += ch;
+    }
+  }
+  if (buf) tokens.push(buf);
+
+  const englishParts = [];
+  const translitParts = [];
+
+  for (const tok of tokens) {
+    const chars = Array.from(tok);
+
+    // Pure numeral cluster: sum the values.
+    if (chars.length && chars.every(c => NUM_VAL[c] !== undefined)) {
+      const sum = chars.reduce((s, c) => s + NUM_VAL[c], 0);
+      englishParts.push(String(sum));
+      translitParts.push(String(sum));
+      continue;
+    }
+
+    // Dictionary hit — exact match on the full token.
+    if (REVERSE_DICT.has(tok)) {
+      const { english, translit } = REVERSE_DICT.get(tok);
+      englishParts.push(english);
+      translitParts.push(translit);
+      continue;
+    }
+
+    // Single-glyph logogram.
+    if (chars.length === 1 && LOGO_GLOSS[chars[0]]) {
+      const { english, translit } = LOGO_GLOSS[chars[0]];
+      englishParts.push(english);
+      translitParts.push(translit);
+      continue;
+    }
+
+    // Phonetic fallback: romanize the syllables. The "English" side gets
+    // a diacritic-stripped, ASCII-friendly form; the translit line keeps
+    // the scholarly diacritics so the user can compare against published
+    // editions.
+    const rom = romanizeCuneWord(chars);
+    if (rom) {
+      englishParts.push(stripDiacritics(rom));
+      translitParts.push(rom);
+    }
+  }
+
+  return {
+    english: englishParts.join(' '),
+    translit: translitParts.join(' · '),
+  };
+}
+
 // Expose to the global scope for script.js
 window.translateToCuneiform = translateToCuneiform;
+window.translateToEnglish   = translateToEnglish;

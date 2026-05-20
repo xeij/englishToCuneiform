@@ -26,6 +26,13 @@
   const readMoreBtn  = document.getElementById('read-more-btn');
   const deepHistory  = document.getElementById('deep-history');
   const demoOverlay  = document.getElementById('demo-overlay');
+  const swapBtn      = document.getElementById('swap-btn');
+  const inputLabel   = document.getElementById('input-label');
+  const outputLabel  = document.getElementById('output-label');
+
+  // Translation direction. 'en2op' = English in, cuneiform out (default).
+  // 'op2en' = cuneiform in, English out.
+  let direction = 'en2op';
 
   let imgIdx = 0;
   let appRevealed = false;
@@ -107,7 +114,7 @@
     demoOverlay.classList.add('hidden');
     demoOverlay.innerHTML = '';
     if (!englishInput.value) {
-      renderCuneiformOutput('', '');
+      renderOutput('', '');
     }
   }
 
@@ -145,7 +152,7 @@
   function renderDemo(text) {
     demoOverlay.innerHTML = escapeHtml(text) + '<span class="demo-caret"></span>';
     const { cuneiform, translit } = window.translateToCuneiform(text);
-    renderCuneiformOutput(cuneiform, translit);
+    renderOutput(cuneiform, translit);
   }
 
   englishInput.addEventListener('focus', stopTypewriterDemo);
@@ -182,10 +189,10 @@
 
   // ---- Live translation ----
 
-  // Track the previously rendered cuneiform so we can diff and only animate
-  // glyphs that actually changed. Cuneiform code points are in the
+  // Track the previously rendered output so we can diff and only animate
+  // characters that actually changed. Cuneiform code points are in the
   // supplementary plane, so we use Array.from for proper code-point iteration.
-  let prevCuneiform = '';
+  let prevOutput = '';
 
   function escapeHtml(s) {
     return s.replace(/&/g, '&amp;')
@@ -193,21 +200,23 @@
             .replace(/>/g, '&gt;');
   }
 
-  function renderCuneiformOutput(cuneiform, translit) {
-    if (!cuneiform) {
+  // Render whatever the current direction produces — cuneiform glyphs in
+  // 'en2op' mode, plain English in 'op2en' mode. The fade-in diff on new
+  // characters works the same for both since we iterate code points.
+  function renderOutput(text, translit) {
+    if (!text) {
       cuneOutput.classList.add('empty');
       cuneOutput.innerHTML = '';
       translitOut.textContent = '';
-      prevCuneiform = '';
+      prevOutput = '';
       return;
     }
 
     cuneOutput.classList.remove('empty');
 
-    const prevChars = Array.from(prevCuneiform);
-    const newChars  = Array.from(cuneiform);
+    const prevChars = Array.from(prevOutput);
+    const newChars  = Array.from(text);
 
-    // Length of the shared prefix — these glyphs stay put without re-animating.
     let stable = 0;
     while (stable < prevChars.length &&
            stable < newChars.length &&
@@ -223,18 +232,98 @@
 
     cuneOutput.innerHTML = html;
     translitOut.textContent = translit;
-    prevCuneiform = cuneiform;
+    prevOutput = text;
   }
 
   function renderTranslation() {
     const text = englishInput.value;
-    const { cuneiform, translit } = window.translateToCuneiform(text);
-    renderCuneiformOutput(cuneiform, translit);
+    if (direction === 'en2op') {
+      const { cuneiform, translit } = window.translateToCuneiform(text);
+      renderOutput(cuneiform, translit);
+    } else {
+      const { english, translit } = window.translateToEnglish(text);
+      renderOutput(english, translit);
+    }
   }
+
+  // === Swap direction ===
+  // Flip the labels, swap the contents of the input box and the output box
+  // (Google-Translate style), and re-render. Disables the typewriter demo
+  // permanently once the user has interacted with the swap button.
+  function applyDirectionLabels() {
+    if (direction === 'en2op') {
+      inputLabel.textContent  = 'English';
+      outputLabel.textContent = 'Old Persian Cuneiform';
+      englishInput.setAttribute('aria-label', 'English input');
+      document.body.classList.remove('reverse-mode');
+    } else {
+      inputLabel.textContent  = 'Old Persian Cuneiform';
+      outputLabel.textContent = 'English';
+      englishInput.setAttribute('aria-label', 'Cuneiform input');
+      document.body.classList.add('reverse-mode');
+    }
+  }
+
+  function swapDirection() {
+    stopTypewriterDemo();
+
+    // Capture the current input and the plain-text output before mutating.
+    const currentInput  = englishInput.value;
+    const currentOutput = cuneOutput.textContent || '';
+
+    direction = direction === 'en2op' ? 'op2en' : 'en2op';
+    applyDirectionLabels();
+
+    // Move the previous output into the input box so the user keeps their
+    // working text — now in the opposite language.
+    englishInput.value = currentOutput;
+
+    // Reset the diff baseline so the next render fully re-paints in the
+    // new font and direction.
+    prevOutput = '';
+    renderTranslation();
+
+    // If the user swapped before typing anything (input was empty), leave
+    // the box empty for them; otherwise focus it so they can keep editing.
+    if (englishInput.value) englishInput.focus();
+
+    swapBtn.classList.remove('is-swapping');
+    void swapBtn.offsetWidth;
+    swapBtn.classList.add('is-swapping');
+  }
+
+  swapBtn.addEventListener('click', swapDirection);
 
   englishInput.addEventListener('input', () => {
     stopTypewriterDemo();
     renderTranslation();
+  });
+
+  // ---- Syllabary & phrases: click a cell to drop its English into the input ----
+  function insertIntoInput(text) {
+    stopTypewriterDemo();
+    const current = englishInput.value;
+    const sep = current && !/\s$/.test(current) ? ' ' : '';
+    englishInput.value = current + sep + text;
+    renderTranslation();
+    englishInput.focus();
+    englishInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  document.querySelectorAll('.ref-cell[data-insert]').forEach(cell => {
+    cell.addEventListener('click', () => {
+      insertIntoInput(cell.getAttribute('data-insert'));
+    });
+  });
+
+  document.querySelectorAll('.phrase-card[data-insert]').forEach(card => {
+    card.addEventListener('click', () => {
+      stopTypewriterDemo();
+      englishInput.value = card.getAttribute('data-insert');
+      renderTranslation();
+      englishInput.focus();
+      englishInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
   });
 
   // ---- Read more toggle ----

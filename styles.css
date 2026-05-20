@@ -852,6 +852,388 @@ label {
   letter-spacing: 0.05em;
 }
 
+/* === SWAP DIRECTION BUTTON ===
+   Sits in the gap between the input and output cards. Visually a small
+   glass disc with two opposing arrows — the same liquid-glass treatment
+   as the copy button, but rounded into a perfect circle. */
+.swap-row {
+  width: 100%;
+  max-width: 780px;
+  display: flex;
+  justify-content: center;
+  margin: -0.5rem 0;
+  position: relative;
+  z-index: 6;
+}
+
+.swap-btn {
+  position: relative;
+  isolation: isolate;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(255, 255, 255, 0.12) 55%,
+      rgba(255, 255, 255, 0.06) 100%);
+  color: #ffffff;
+  cursor: pointer;
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.48),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.32),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 1px 1px rgba(0, 0, 0, 0.25),
+    0 10px 24px -6px rgba(0, 0, 0, 0.6);
+  transition:
+    background 0.3s var(--ease-glass),
+    transform  0.32s var(--ease-buoyant),
+    box-shadow 0.3s var(--ease-glass);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.swap-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(120% 80% at 50% -30%,
+      rgba(255, 255, 255, 0.42),
+      rgba(255, 255, 255, 0) 65%);
+  mix-blend-mode: screen;
+}
+
+.swap-icon {
+  position: relative;
+  z-index: 1;
+  width: 22px;
+  height: 22px;
+}
+
+.swap-icon path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (hover: hover) {
+  .swap-btn:hover {
+    background:
+      linear-gradient(180deg,
+        rgba(255, 255, 255, 0.32) 0%,
+        rgba(255, 255, 255, 0.18) 55%,
+        rgba(255, 255, 255, 0.10) 100%);
+    transform: translateY(-2px) scale(1.04);
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.6),
+      inset 0 -1px 0 0 rgba(0, 0, 0, 0.32),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+      0 2px 2px rgba(0, 0, 0, 0.25),
+      0 16px 30px -8px rgba(0, 0, 0, 0.65),
+      0 0 32px -8px rgba(170, 210, 255, 0.5),
+      0 0 52px -12px rgba(200, 180, 255, 0.32);
+  }
+}
+
+.swap-btn:active {
+  transform: translateY(0) scale(0.96);
+  transition-duration: 0.1s;
+}
+
+.swap-btn:focus-visible {
+  outline: none;
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.32),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 0 0 3px rgba(170, 210, 255, 0.35),
+    0 0 0 6px rgba(200, 180, 255, 0.18),
+    0 14px 28px -8px rgba(0, 0, 0, 0.6);
+}
+
+.swap-btn.is-swapping .swap-icon {
+  animation: swap-spin 0.5s var(--ease-buoyant);
+}
+
+@keyframes swap-spin {
+  0%   { transform: rotate(0deg);   }
+  100% { transform: rotate(180deg); }
+}
+
+/* === REVERSE MODE ===
+   When the body has .reverse-mode, the top textarea becomes the cuneiform
+   input (large Old Persian font) and the bottom output area becomes plain
+   English (sans-serif). The empty-state placeholder changes from cuneiform
+   to an English hint. */
+body.reverse-mode #english-input,
+body.reverse-mode .demo-overlay {
+  font-family: var(--font-cune);
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  line-height: 1.55;
+  letter-spacing: 0.06em;
+}
+
+body.reverse-mode #cuneiform-output {
+  font-family: var(--font-sans);
+  font-size: clamp(1.05rem, 2.1vw, 1.25rem);
+  line-height: 1.55;
+  letter-spacing: 0;
+}
+
+body.reverse-mode .cuneiform-text.empty::before {
+  content: 'I  Darius  king';
+  font-family: var(--font-sans);
+  font-size: 1em;
+  letter-spacing: 0.04em;
+}
+
+/* === SYLLABARY REFERENCE PANEL ===
+   A glass card that lays out every Old Persian sign on one page. Each
+   sign is a small inset glass cell — when present in the dictionary,
+   clicking it drops the English equivalent into the input above. */
+.reference-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.reference-intro,
+.ref-sub {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-dim);
+  margin: 0;
+  font-weight: 400;
+}
+
+.ref-sub {
+  font-size: 0.86rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.2rem;
+}
+
+.ref-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.ref-heading {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 600;
+  margin: 0.4rem 0 0;
+}
+
+.ref-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
+  gap: 0.55rem;
+}
+
+.ref-grid-wide {
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+}
+
+.ref-cell {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.18rem;
+  padding: 0.7rem 0.4rem 0.55rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.10) 0%,
+      rgba(255, 255, 255, 0.04) 100%);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 4px 14px -6px rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  cursor: pointer;
+  text-align: center;
+  font-family: var(--font-sans);
+  transition:
+    transform 0.22s var(--ease-buoyant),
+    box-shadow 0.3s var(--ease-glass),
+    background 0.3s var(--ease-glass);
+}
+
+.ref-cell:not([data-insert]) {
+  cursor: default;
+}
+
+.ref-glyph {
+  font-family: var(--font-cune);
+  font-size: clamp(1.5rem, 3.4vw, 2rem);
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: #ffffff;
+}
+
+.ref-translit {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.ref-note {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.02em;
+  color: var(--text-dim-2);
+  font-style: italic;
+}
+
+@media (hover: hover) {
+  .ref-cell[data-insert]:hover {
+    transform: translateY(-2px);
+    background:
+      linear-gradient(180deg,
+        rgba(255, 255, 255, 0.18) 0%,
+        rgba(255, 255, 255, 0.08) 100%);
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.32),
+      inset 0 -1px 0 0 rgba(0, 0, 0, 0.45),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+      0 8px 22px -6px rgba(0, 0, 0, 0.6),
+      0 0 24px -8px rgba(170, 210, 255, 0.40),
+      0 0 40px -12px rgba(200, 180, 255, 0.28);
+  }
+}
+
+.ref-cell[data-insert]:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 0.08s;
+}
+
+/* === FAMOUS PHRASES PANEL === */
+.phrases-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.phrases-intro {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.phrase-card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1rem 1.1rem;
+  border: none;
+  border-radius: var(--radius-md);
+  background:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.10) 0%,
+      rgba(255, 255, 255, 0.035) 100%);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 4px 14px -6px rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-sans);
+  width: 100%;
+  transition:
+    transform 0.22s var(--ease-buoyant),
+    box-shadow 0.3s var(--ease-glass),
+    background 0.3s var(--ease-glass);
+}
+
+.phrase-cune {
+  font-family: var(--font-cune);
+  font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+  line-height: 1.55;
+  color: #ffffff;
+  letter-spacing: 0.06em;
+  word-break: break-word;
+}
+
+.phrase-translit {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-dim);
+  letter-spacing: 0.01em;
+}
+
+.phrase-english {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: #ffffff;
+  line-height: 1.5;
+}
+
+.phrase-source {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim-2);
+  font-weight: 600;
+  margin-top: 0.15rem;
+}
+
+@media (hover: hover) {
+  .phrase-card:hover {
+    transform: translateY(-2px);
+    background:
+      linear-gradient(180deg,
+        rgba(255, 255, 255, 0.16) 0%,
+        rgba(255, 255, 255, 0.07) 100%);
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.32),
+      inset 0 -1px 0 0 rgba(0, 0, 0, 0.45),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.10),
+      0 8px 22px -6px rgba(0, 0, 0, 0.6),
+      0 0 28px -8px rgba(170, 210, 255, 0.40),
+      0 0 48px -12px rgba(200, 180, 255, 0.28);
+  }
+}
+
+.phrase-card:active {
+  transform: translateY(0) scale(0.99);
+  transition-duration: 0.08s;
+}
+
 /* === RESPONSIVE === */
 @media (max-width: 600px) {
   #app { padding: 8rem 1rem 2.5rem; gap: 1rem; }
