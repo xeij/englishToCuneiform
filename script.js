@@ -2,18 +2,17 @@
 (function () {
   'use strict';
 
-  // Entry uses image1-4, corner slideshow uses image5-15.
+  // Entry uses image1-4, corner slideshows use image5-15.
   const ENTRY_IMAGES  = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg'];
-  const CORNER_IMAGES = [
-    'image5.jpg',  'image6.jpg',  'image7.jpg',  'image8.jpg',
-    'image9.jpg',  'image10.jpg', 'image11.jpg', 'image12.jpg',
-    'image13.jpg', 'image14.jpg', 'image15.jpg'
-  ];
+  const LEFT_IMAGES   = ['image6.jpg', 'image8.jpg', 'image10.jpg', 'image12.jpg', 'image14.jpg'];
+  const RIGHT_IMAGES  = ['image5.jpg', 'image7.jpg', 'image9.jpg', 'image11.jpg', 'image13.jpg', 'image15.jpg'];
 
   const entryEl      = document.getElementById('entry');
   const entryImg     = document.getElementById('entry-img');
   const cornerEl     = document.getElementById('corner-slideshow');
   const cornerImg    = document.getElementById('corner-img');
+  const leftEl       = document.getElementById('left-slideshow');
+  const leftImg      = document.getElementById('left-img');
   const titleBar     = document.getElementById('title-bar');
   const app          = document.getElementById('app');
   const inputCard    = document.getElementById('input-container');
@@ -39,10 +38,11 @@
   let swapping = false;
 
   entryImg.src = ENTRY_IMAGES[0];
-  cornerImg.src = CORNER_IMAGES[0];
+  if (cornerImg) cornerImg.src = RIGHT_IMAGES[0];
+  if (leftImg) leftImg.src = LEFT_IMAGES[0];
 
   // Preload all images so swaps are instant
-  [...ENTRY_IMAGES.slice(1), ...CORNER_IMAGES].forEach(src => {
+  [...ENTRY_IMAGES.slice(1), ...LEFT_IMAGES, ...RIGHT_IMAGES].forEach(src => {
     const i = new Image();
     i.src = src;
   });
@@ -71,6 +71,10 @@
     app.setAttribute('aria-hidden', 'false');
     cornerEl.classList.remove('hidden');
     cornerEl.setAttribute('aria-hidden', 'false');
+    if (leftEl) {
+      leftEl.classList.remove('hidden');
+      leftEl.setAttribute('aria-hidden', 'false');
+    }
 
     void app.offsetWidth;  // force reflow so transitions fire
 
@@ -79,6 +83,7 @@
     outputCard.classList.add('visible');
     appFooter.classList.add('visible');
     cornerEl.classList.add('visible');
+    if (leftEl) leftEl.classList.add('visible');
 
     startCornerSlideshow();
     startTypewriterDemo();
@@ -157,12 +162,15 @@
 
   englishInput.addEventListener('focus', stopTypewriterDemo);
 
-  // ---- Corner slideshow (auto-rotates) ----
-  let cornerIdx = 0;
+  // ---- Corner slideshows (auto-rotate, alternating image pools) ----
+  let leftIdx = 0;
+  let rightIdx = 0;
   function startCornerSlideshow() {
     setInterval(() => {
-      cornerIdx = (cornerIdx + 1) % CORNER_IMAGES.length;
-      cornerImg.src = CORNER_IMAGES[cornerIdx];
+      leftIdx = (leftIdx + 1) % LEFT_IMAGES.length;
+      rightIdx = (rightIdx + 1) % RIGHT_IMAGES.length;
+      if (leftImg) leftImg.src = LEFT_IMAGES[leftIdx];
+      if (cornerImg) cornerImg.src = RIGHT_IMAGES[rightIdx];
     }, 4500);
   }
 

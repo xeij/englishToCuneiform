@@ -39,8 +39,6 @@
   <!-- Translator UI (hidden until entry) -->
   <main id="app" class="hidden" aria-hidden="true">
     <section class="container input-container" id="input-container">
-      <div class="aurora-glow-1" aria-hidden="true"></div>
-      <div class="aurora-glow-2" aria-hidden="true"></div>
       <label id="input-label" for="english-input">English</label>
       <div class="input-wrap">
         <div id="demo-overlay" class="demo-overlay hidden" aria-hidden="true"></div>
@@ -67,8 +65,6 @@
     </div>
 
     <section class="container output-container" id="output-container">
-      <div class="aurora-glow-1" aria-hidden="true"></div>
-      <div class="aurora-glow-2" aria-hidden="true"></div>
       <label id="output-label">Old Persian Cuneiform</label>
       <div id="cuneiform-output" class="cuneiform-text empty"></div>
       <div id="translit-output" class="translit-text"></div>
@@ -88,8 +84,6 @@
          divider. Click any sign to drop its English equivalent into the
          input above. -->
     <section class="container reference-container" id="reference-container">
-      <div class="aurora-glow-1" aria-hidden="true"></div>
-      <div class="aurora-glow-2" aria-hidden="true"></div>
       <label>The Syllabary</label>
       <p class="reference-intro">
         Old Persian writes one syllable per sign. Most consonants have a
@@ -184,8 +178,6 @@
          catalogued at avesta.org. Click any one to drop the English into
          the translator above. -->
     <section class="container phrases-container" id="phrases-container">
-      <div class="aurora-glow-1" aria-hidden="true"></div>
-      <div class="aurora-glow-2" aria-hidden="true"></div>
       <label>Famous Phrases</label>
       <p class="phrases-intro">
         Phrases that recur, almost word-for-word, across the
@@ -236,9 +228,11 @@
       </button>
     </section>
 
-    <!-- Slideshow: floats on the right on desktop, sits inline above the
-         description text on mobile. -->
-    <aside id="corner-slideshow" class="corner-slideshow hidden" aria-hidden="true">
+    <!-- Slideshows: float on both sides on desktop to keep layout balanced. -->
+    <aside id="left-slideshow" class="corner-slideshow left-side hidden" aria-hidden="true">
+      <img id="left-img" src="image6.jpg" alt="">
+    </aside>
+    <aside id="corner-slideshow" class="corner-slideshow right-side hidden" aria-hidden="true">
       <img id="corner-img" src="image5.jpg" alt="">
     </aside>
 
